@@ -1,5 +1,9 @@
 import billboard
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
@@ -21,23 +25,42 @@ def get_list(list, date):
     return songs
 
 def get_spotify_id(song_info, limit = 1):
-    spotify_token = 'BQBwOK7HMbheAO49r7tx-qbBqfr9drqGuSM2vuPIpw5tHbaPIieYBMDel_xNZlCyv07eKJJC-ZXPe0ivaJOlyBXGbcpnAM3-znOK6XuuhqFZphqClrDjHK1sRzKwdN7yStbL_I2yB_SBMH4nxqaJWrA13dIo_Mm7FgLGIzkF-SPS-epuAA'
-    base_url = 'https://api.spotify.com/v1/search'
+    spotify_token = os.environ.get('spotify_api_token')
+
     query = "?q={}&artist={}&type=track&limit={}".format(song_info[0], song_info[1], limit)
 
-    url = base_url + query
+    url = os.environ.get('SPOTIFY_BASE_URL') + query
 
     response = requests.get(url, auth=BearerAuth(spotify_token))
     json_data = response.json()
-    # json_object = json.loads(json_data)
-    # json_formatted = json.dumps(json_data, indent=2)
-    # print(json_data)
+    print(json_data)
     id_string = json_data['tracks']['items'][0]['uri']
     print(id_string)
     print(id_string[14:])
     id = id_string[14:]
 
     return id
+
+def get_analysis_features(song_id):
+
+    base_url = os.environ.get('SPOTIFY_BASE_URL')
+
+    # Call Analysis API /audio-analysis/:id
+
+    song_analysis = {}
+
+    # Call Features API /audio-features/:id
+
+    song_features = {}
+
+
+
+    song_info ={
+        song_analysis: song_analysis,
+        song_features: song_features,
+    }
+
+    return song_info
 
 # def main():
 
