@@ -1,38 +1,81 @@
-.App {
+body {
+  background-color: #fff;
+}
+
+.title {
+  user-select: none;
+  color: #fff;
+  font-family: monospace;
+  font-weight: bold;
   text-align: center;
+  margin: 42px auto 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.range-slider {
+  width: 80%;
+  margin: 24px auto 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.range-slider.margin-lg {
+  margin: 42px auto 0;
+}
+
+/* Gradient Range Slider */
+#range-slider-gradient {
+  height: 30px;
+  border-radius: 12px;
+  background: #ebecf6;
+}
+
+#range-slider-gradient .range-slider__thumb {
+  border: 6px solid #fff;
+  box-sizing: border-box;
+}
+
+#range-slider-gradient .range-slider__thumb[data-lower] {
+  background: #22c1c3;
+  height: 30px;
+  width: 30px;
+}
+
+#range-slider-gradient .range-slider__thumb[data-upper] {
+  background: #fdbb2d;
+  height: 30px;
+  width: 30px;
+}
+
+#range-slider-gradient .range-slider__range {
+  background: linear-gradient(to right, #22c1c3, #fdbb2d);
+  background-size: 200% 100%;
+  background-position: 50% 0;
+}
+
+#range-slider-gradient .range-slider__range[data-active],
+#range-slider-gradient
+  .range-slider__thumb[data-active]
+  ~ .range-slider__range {
+  animation: move-bg 0.75s infinite linear;
+}
+
+@keyframes move-bg {
+  0% {
+    background-position: 50% 0;
+  }
+
+  25% {
+    background-position: 100% 0;
+  }
+
+  50% {
+    background-position: 50% 0;
+  }
+
+  75% {
+    background-position: 0% 0;
+  }
+
+  100% {
+    background-position: 50% 0;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
