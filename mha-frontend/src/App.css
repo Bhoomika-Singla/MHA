@@ -11,71 +11,76 @@ body {
   margin: 42px auto 0;
 }
 
-.range-slider {
-  width: 80%;
-  margin: 24px auto 0;
+.app-header {
+  display: flex;
+  height: 55px;
+  font-family: cursive;
+  font-size: 35px;
 }
 
-.range-slider.margin-lg {
-  margin: 42px auto 0;
+.header1 {
+  width: 15%;
+  color: rgb(241, 183, 76);
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-color: orange;
+  border: 8px solid;
+
+}
+
+.header2 {
+  width: 85%;
+  background-color: rgb(241, 183, 76);
+  color: azure;
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+}
+
+.interval {
+  padding: 15px 0px 0px 10px;
+  font-family: cursive;
+  font-size: 20px;
+  display: flex;
+}
+
+.interval-date {
+  display: flex;
+  padding: 0px 10px 0px 10px;
+}
+
+.interval-button {
+  height: 35px;
+  width: 100px;
+  border: none;
+  border-radius: 20%;
+  color: orange;
+  margin: 0px 10px 0px 10px;
+  background-color: #F5F7FA
+}
+
+button:focus {
+  background-color: orange;
+  color: white;
 }
 
 /* Gradient Range Slider */
-#range-slider-gradient {
-  height: 30px;
-  border-radius: 12px;
-  background: #ebecf6;
-}
-
-#range-slider-gradient .range-slider__thumb {
-  border: 6px solid #fff;
-  box-sizing: border-box;
-}
-
-#range-slider-gradient .range-slider__thumb[data-lower] {
-  background: #22c1c3;
-  height: 30px;
-  width: 30px;
-}
-
-#range-slider-gradient .range-slider__thumb[data-upper] {
-  background: #fdbb2d;
-  height: 30px;
-  width: 30px;
-}
-
-#range-slider-gradient .range-slider__range {
-  background: linear-gradient(to right, #22c1c3, #fdbb2d);
+.react_time_range__track {
+  background: linear-gradient(to right, yellow, orange);
   background-size: 200% 100%;
   background-position: 50% 0;
+  border: none;
+  border-left: none !important;
+  border-right: none !important;
 }
 
-#range-slider-gradient .range-slider__range[data-active],
-#range-slider-gradient
-  .range-slider__thumb[data-active]
-  ~ .range-slider__range {
-  animation: move-bg 0.75s infinite linear;
+.react_time_range__time_range_container {
+  padding: 50px;
+  width: 100%;
 }
 
-@keyframes move-bg {
-  0% {
-    background-position: 50% 0;
-  }
-
-  25% {
-    background-position: 100% 0;
-  }
-
-  50% {
-    background-position: 50% 0;
-  }
-
-  75% {
-    background-position: 0% 0;
-  }
-
-  100% {
-    background-position: 50% 0;
-  }
+.react_time_range__handle_marker {
+  background-color: orange;
 }
-
