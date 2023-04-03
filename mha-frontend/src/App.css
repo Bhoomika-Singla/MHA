@@ -2,47 +2,27 @@ body {
   background-color: #fff;
 }
 
-.title {
-  user-select: none;
-  color: #fff;
-  font-family: monospace;
-  font-weight: bold;
-  text-align: center;
-  margin: 42px auto 0;
+.header-with-logo{
+  display: flex;
 }
 
 .app-header {
   display: flex;
   height: 55px;
-  font-family: cursive;
+  width: 100%;
   font-size: 35px;
-}
-
-.header1 {
-  width: 15%;
-  color: rgb(241, 183, 76);
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  border-color: orange;
-  border: 8px solid;
-
-}
-
-.header2 {
-  width: 85%;
-  background-color: rgb(241, 183, 76);
-  color: azure;
-  align-items: center;
-  justify-content: flex-start;
-  display: flex;
+  color: black;
+  background: linear-gradient(to right, #ffffff, #BEEF63);
+  background-size: 105% 200%;
+  background-position: 100% 100%;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .interval {
   padding: 15px 0px 0px 10px;
-  font-family: cursive;
   font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
   display: flex;
 }
 
@@ -56,31 +36,31 @@ body {
   width: 100px;
   border: none;
   border-radius: 20%;
-  color: orange;
+  color: black;
   margin: 0px 10px 0px 10px;
   background-color: #F5F7FA
 }
 
-button:focus {
-  background-color: orange;
-  color: white;
+.selected {
+  background-color: #BEEF63;
+  color: black;
 }
 
 /* Gradient Range Slider */
 .react_time_range__track {
-  background: linear-gradient(to right, yellow, orange);
-  background-size: 200% 100%;
-  background-position: 50% 0;
+  background: linear-gradient(to right, #ffffff, #BEEF63);
+  background-size: 200% 200%;
+  background-position: 100% 100%;
   border: none;
   border-left: none !important;
   border-right: none !important;
 }
 
 .react_time_range__time_range_container {
-  padding: 50px;
-  width: 100%;
+  padding: 50px !important;
+  width: 100% !important;
 }
 
 .react_time_range__handle_marker {
-  background-color: orange;
+  background-color: #BEEF63;
 }
