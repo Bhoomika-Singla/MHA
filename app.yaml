@@ -1,16 +1,9 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
+# app.yaml
+runtime: nodejs10
+handlers:
+- url: /(.*\..+)$
+  static_files: dist/\1
+  upload: dist/(.*\..+)$
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
