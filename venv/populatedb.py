@@ -1,6 +1,5 @@
 import billboard
 import datetime
-import pandas as pd
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
