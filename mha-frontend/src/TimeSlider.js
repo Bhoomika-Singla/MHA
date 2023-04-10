@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
 import './App.css';
@@ -10,7 +11,7 @@ import {
 
 
 class TimeSlider extends React.Component {
-    state = {
+    state = { 
         error: false,
         selectedInterval,
         selectedButton: "Year",
@@ -20,11 +21,38 @@ class TimeSlider extends React.Component {
 
     errorHandler = ({ error }) => this.setState({ error });
 
-    onChangeCallback = (selectedInterval) => this.setState({ selectedInterval });
+    onChangeCallback = (selectedInterval) => {
+        this.setState({ selectedInterval }, () => {
+            this.sendIntervalData();
+        });
+    }
 
     handleIntervalClick = (step, formatString, buttonName) => {
-        this.setState({ step, formatString, selectedButton: buttonName });
+        this.setState({ step, formatString, selectedButton: buttonName }, () => {
+            this.sendIntervalData();
+        });
     };
+
+    sendIntervalData = () => {
+        const { selectedButton, selectedInterval, formatString } = this.state;
+        const startDate = format(selectedInterval[0], formatString);
+        const endDate = format(selectedInterval[1], formatString);
+        const intervalData = {
+            interval: selectedButton,
+            startDate,
+            endDate
+        };
+
+        axios.post("/intervals", intervalData)
+            .then(response => {
+                // Handle success
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle error
+                console.error(error);
+            });
+    }
 
     render() {
         const { selectedInterval, error, step, selectedButton, formatString } = this.state;
