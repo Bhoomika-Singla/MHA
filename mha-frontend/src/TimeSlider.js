@@ -11,7 +11,7 @@ import {
 
 
 class TimeSlider extends React.Component {
-    state = {
+    state = { 
         error: false,
         selectedInterval,
         selectedButton: "Year",
