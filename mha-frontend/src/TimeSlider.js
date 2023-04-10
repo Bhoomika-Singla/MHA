@@ -11,7 +11,7 @@ import {
 
 
 class TimeSlider extends React.Component {
-    state = { 
+    state = {
         error: false,
         selectedInterval,
         selectedButton: "Year",
@@ -34,9 +34,16 @@ class TimeSlider extends React.Component {
     };
 
     sendIntervalData = () => {
-        const { selectedButton, selectedInterval, formatString } = this.state;
-        const startDate = format(selectedInterval[0], formatString);
-        const endDate = format(selectedInterval[1], formatString);
+        const { selectedButton, selectedInterval } = this.state;
+
+        let intervalFormat = 'yyyy-MM-dd';
+        if (selectedButton === 'Year')
+            intervalFormat = 'yyyy';
+        else if (selectedButton === 'Month')
+            intervalFormat = 'yyyy-MM';
+
+        const startDate = format(selectedInterval[0], intervalFormat);
+        const endDate = format(selectedInterval[1], intervalFormat);
         const intervalData = {
             interval: selectedButton,
             startDate,
