@@ -1,17 +1,91 @@
+# . venv/bin/activate
+# flask --app app.py run
 from flask import Flask, request, jsonify
+import pymongo
+import numpy as np
+from datetime import datetime
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+
+    return app
+
+def get_available_dates(db):
+    weeks = []
+    for week in db['weeks'].find(): # Iterates over all weeks
+        date = week['date']
+
+        weeks.append(datetime.strptime(date, '%Y-%m-%d').date())
+
+    return np.sort(weeks)
+
+app = create_app()
+
+client = pymongo.MongoClient("mongodb+srv://BigDataUser:MusicHistoryAnalyzer@bigdatamhacluster.cu0olpo.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=5000)
+db = client['MHA'] # Accessed by `flask.current_app.db`
+
+available_dates = get_available_dates(db) # Accessed by flask.current_app.available_dates
+
+if __name__ == 'main':
+    app.run()
 
 @app.route("/")
 def hello_world():
-    return "Hello World"
+    hello = "Hello world"
+    return hello
+
+@app.route("/aggregate")
+def aggregate():
+    for i in db['week_aggregate_top_100'].find():
+        print(i)
+    return "Success"
 
 @app.route("/query", methods=['GET'])
 def query():
     if request.method == 'GET':
-        start_date = request.args.get('start_date')
-        end_date = request.args.get('end_date')
-        attributes = request.args.getlist('attr')
+        try:
+            start_date_str = request.args.get('startDate')
+            end_date_str = request.args.get('endDate')
+            
+            if len(end_date_str) != 10 or len(start_date_str) != 10:
+                raise ValueError("Invalid date format")
+            
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
 
-        to_return = jsonify(start_date=start_date, end_date=end_date, attributes=attributes)
-        return to_return
+            interval = request.args.get('interval')
+
+            print("Querying for dates... START:", start_date, "END", end_date, "on a", interval, "interval")
+
+            if interval == 'Week':
+                week_agg_collection = db['week_aggregate_top_100']
+                week_counter = 0
+                weeks_data = []
+                for date in available_dates:
+                    if date > start_date:
+                        week_data = week_agg_collection.find_one({'date': datetime.strftime(date, '%Y-%m-%d')})
+                        week_data['_id'] = ''
+                        weeks_data.append(
+                            {
+                                'week_number': week_counter,
+                                'data': week_data
+                            }
+                        )
+                        week_counter += 1
+                    if date > end_date:
+                        break
+
+                print(len(weeks_data), "Weeks sent")
+                return jsonify(weeks_data)
+                
+            elif interval == 'Month':
+                value_to_return = "TODO"
+            elif interval == 'Year':
+                value_to_return = "TODO"
+            else:
+                raise ValueError("Invalid interval")
+
+            return value_to_return
+        except Exception as e:
+            print("ERROR:", e)
+            return e
