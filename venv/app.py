@@ -79,13 +79,32 @@ def query():
                 return jsonify(weeks_data)
                 
             elif interval == 'Month':
-                value_to_return = "TODO"
+                month_agg_collection = db['month_aggregate_top_100']
+                month_counter = 0
+                months_data = []
+
+                # IMPLEMENT THIS
+                return "TODO"
             elif interval == 'Year':
-                value_to_return = "TODO"
+                year_agg_collection = db['year_aggregate_top_100']
+                year_counter = 0
+                year_data = []
+
+                for year in range(start_date.year, end_date.year):
+                    year_data = year_agg_collection.find_one({'year': year})
+                    year_data['id'] = ''
+                    year_data.append(
+                        {
+                            'year_number': year_counter,
+                            'data': year_data
+                        }
+                    )
+                    year_counter += 1
+
+                return jsonify(year_data)
+
             else:
                 raise ValueError("Invalid interval")
-
-            return value_to_return
         except Exception as e:
             print("ERROR:", e)
             return e
