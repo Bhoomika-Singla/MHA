@@ -27,6 +27,8 @@ spotify_token = auth_manager.get_access_token(as_dict=False)
 
 # create week aggregates of song feature data
 
+# need to do this manually
+
 
 weeks = client['MHA']['weeks']
 songs = client['MHA']['songs']
@@ -53,8 +55,10 @@ for week in weeks.find():
     special_features = ['key','mode','time_signature']
     count = 0
 
+   #print(week['date'])
+
     for id in ids[:1]:
-        print(id)
+        #print(id)
         song = songs.find_one({"id":id})
         if not song:
             continue
@@ -75,30 +79,31 @@ for week in weeks.find():
                 agg_post.update({key:value})
             agg_post[key] += value
 
-    print(agg_post)
 
-    for key in agg_post:
-        agg_post[key] = round(agg_post[key]/count,2)
+    #print(agg_post)
 
-    if len(keyls) > 0:
-        keyls_mode = modefunc(keyls)
-    if len(mode) > 0:
-        mode_mode = modefunc(mode)
-    if len(time_signature) > 0:
-        time_signature_mode = modefunc(time_signature)
+    try:
+        for key in agg_post:
+            agg_post[key] = round(agg_post[key]/count,2)
+        if len(keyls) > 0:
+            keyls_mode = modefunc(keyls) 
+        if len(mode) > 0:
+            mode_mode = modefunc(mode)
+        if len(time_signature) > 0:
+            time_signature_mode = modefunc(time_signature)
 
-    #print(keyls_mode)
-    #print(mode_mode)
-    #print(time_signature_mode)
+        agg_post.update({"date":week['date']})
+        agg_post.update({"key":keyls_mode})
+        agg_post.update({"mode":mode_mode})
+        agg_post.update({"time_signature":time_signature_mode})
 
-    agg_post.update({"date":week['date']})
-    agg_post.update({"key":keyls_mode})
-    agg_post.update({"mode":mode_mode})
-    agg_post.update({"time_signature":time_signature_mode})
+        week_aggregate_top_1.insert_one(agg_post) 
 
-    week_aggregate_top_1.insert_one(agg_post) 
 
-    print(agg_post)
+    except:
+        print(week["date"])
+        continue
+
 
 
 
