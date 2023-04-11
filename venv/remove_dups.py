@@ -35,20 +35,17 @@ week_aggregate_top_100 = client['MHA']['week_aggregate_top_100']
 week_aggregate_top_10 = client['MHA']['week_aggregate_top_10']
 week_aggregate_top_1 = client['MHA']['week_aggregate_top_1']
 
+tables = [weeks,week_aggregate_top_100,week_aggregate_top_10,week_aggregate_top_1]
 
-count = 0
+for table in tables:
+    for week in table.find():
+        pipeline = [
+            {"$match":{"date":week['date']}}
+        ]
 
-test = weeks.find({'date':'1980-10-05'})
-#print(len(test))
+        count = len(list(table.aggregate(pipeline=pipeline)))
+        if(count > 1):
+            print(week["date"] + " " + str(count))
+            table.delete_one({"date":week["date"]})
 
-for week in week_aggregate_top_1.find():
-    pipeline = [
-        {"$match":{"date":week['date']}}
-    ]
-
-    count = len(list(week_aggregate_top_1.aggregate(pipeline=pipeline)))
-    if(count > 1):
-        print(week["date"] + " " + str(count))
-        week_aggregate_top_1.delete_one({"date":week["date"]})
-
-    #pprint.pprint(list(weeks.aggregate(pipeline=pipeline)))
+        #pprint.pprint(list(weeks.aggregate(pipeline=pipeline)))

@@ -47,21 +47,20 @@ def generate_dates():   # restart from 1980-08-17
 # test for dates misssing lists
 db = client['MHA']
 weeks = db['weeks']
+songs = db['songs']
 dates = generate_dates()
 
-missing_dates = []
-for week in client['MHA']['weeks'].find():
-    if len(week['ids']) < 99 :
-        #print(str(week['date']) + " " + str(len(week['ids'])))
-        missing_dates.append(week['date'])
+missing_ids = []
 
-#missing_dates = ['1980-08-24', '1980-08-31', '1980-09-07', '1980-09-14', '1980-09-21', '1980-09-28', '1980-10-05', '1980-10-12', '1980-10-19', '1980-10-26', '1980-11-02', '1980-11-09', '1980-11-16', '1980-11-23', '1980-11-30', '1980-12-07', '1980-12-14', '1980-12-21', '1980-12-28', '1981-01-04', '1981-01-11', '1981-01-18', '1983-07-31', '1983-08-07', '1983-08-14', '1983-08-21', '1983-08-28', '1983-09-04', '1983-09-11', '1983-09-18', '1983-09-25', '1983-10-02', '1983-10-09', '1983-10-16', '1983-10-23', '1983-10-30', '1983-11-06', '1983-11-13', '1983-11-20', '1983-11-27', '1983-12-04', '1983-12-11']
+for week in weeks.find():
+    for id in week['ids']:
+        if not songs.find_one({"id":id}):
+            missing_ids.append(id)
 
-print(missing_dates)
-#for date in missing_dates:
     #ls = get_list('hot-100',date)
     #print(ls)
 
+print(missing_ids)
 
 #print(client['MHA']['songs'].find_one({"artist":"shasdfsaf"}))
 #if not client['MHA']['songs'].find_one({"artist":"shasdfsaf"}):
