@@ -1,9 +1,13 @@
-# . venv/bin/activate
-# flask --app app.py run
+# Run the following commands to start the server...
+# . venv/bin/activate             Activates the virtual environment
+# flask --app app.py run          Starts the server
+
 from flask import Flask, request, jsonify
 import pymongo
 import numpy as np
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 def create_app():
     app = Flask(__name__)
@@ -21,7 +25,10 @@ def get_available_dates(db):
 
 app = create_app()
 
-client = pymongo.MongoClient("mongodb+srv://BigDataUser:MusicHistoryAnalyzer@bigdatamhacluster.cu0olpo.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=5000)
+# Load environment variables
+load_dotenv()
+
+client = pymongo.MongoClient(f"mongodb+srv://BigDataUser:{os.environ.get('MONGO_PASS')}@bigdatamhacluster.cu0olpo.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=5000)
 db = client['MHA'] # Accessed by `flask.current_app.db`
 
 available_dates = get_available_dates(db) # Accessed by flask.current_app.available_dates
@@ -29,21 +36,17 @@ available_dates = get_available_dates(db) # Accessed by flask.current_app.availa
 if __name__ == 'main':
     app.run()
 
+# Only here for test purposes
 @app.route("/")
 def hello_world():
     hello = "Hello world"
     return hello
 
-@app.route("/aggregate")
-def aggregate():
-    for i in db['week_aggregate_top_100'].find():
-        print(i)
-    return "Success"
-
 @app.route("/query", methods=['GET'])
 def query():
     if request.method == 'GET':
         try:
+
             start_date_str = request.args.get('startDate')
             end_date_str = request.args.get('endDate')
             
