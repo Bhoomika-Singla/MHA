@@ -14,14 +14,24 @@ def create_app():
 
     return app
 
-def get_available_dates(db):
+def get_available_weeks(db):
     weeks = []
+
     for week in db['weeks'].find(): # Iterates over all weeks
         date = week['date']
 
         weeks.append(datetime.strptime(date, '%Y-%m-%d').date())
 
     return np.sort(weeks)
+
+def get_available_months(db):
+    months = []
+
+    for agg_obj in db['month_aggregate_top_100'].find():
+        # Setting day as 1 for comparison purposes
+        months.append(datetime(year=agg_obj['year'], month=agg_obj['month'], day = 1).date())
+
+    return np.sort(months)
 
 app = create_app()
 
@@ -31,7 +41,7 @@ load_dotenv()
 client = pymongo.MongoClient(f"mongodb+srv://BigDataUser:{os.environ.get('MONGO_PASS')}@bigdatamhacluster.cu0olpo.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=5000)
 db = client['MHA'] # Accessed by `flask.current_app.db`
 
-available_dates = get_available_dates(db) # Accessed by flask.current_app.available_dates
+available_weeks = get_available_weeks(db) # Accessed by flask.current_app.available_dates
 
 if __name__ == 'main':
     app.run()
@@ -64,10 +74,11 @@ def query():
                 week_agg_collection = db['week_aggregate_top_100']
                 week_counter = 0
                 weeks_data = []
-                for date in available_dates:
-                    if date > start_date:
+                for date in available_weeks:
+                    print(date)
+                    if date >= start_date:
                         week_data = week_agg_collection.find_one({'date': datetime.strftime(date, '%Y-%m-%d')})
-                        week_data['_id'] = ''
+                        del week_data['_id']
                         weeks_data.append(
                             {
                                 'week_number': week_counter,
@@ -86,17 +97,31 @@ def query():
                 month_counter = 0
                 months_data = []
 
-                # IMPLEMENT THIS
-                return "TODO"
+                available_months = get_available_months(db)
+                
+                for date in available_months:
+                    if date >= start_date:
+                        month_data = month_agg_collection.find_one({'month': date.month, 'year': date.year})
+                        del month_data['_id']
+                        months_data.append({
+                            'month_number': month_counter,
+                            'data': month_data
+                        })
+                        month_counter += 1
+                    if date > end_date:
+                        break
+
+                print(len(months_data), 'months sent.')
+                return jsonify(months_data)
             elif interval == 'Year':
                 year_agg_collection = db['year_aggregate_top_100']
                 year_counter = 0
-                year_data = []
+                years_data = []
 
-                for year in range(start_date.year, end_date.year):
+                for year in range(start_date.year, end_date.year + 1):
                     year_data = year_agg_collection.find_one({'year': year})
-                    year_data['id'] = ''
-                    year_data.append(
+                    del year_data['_id']
+                    years_data.append(
                         {
                             'year_number': year_counter,
                             'data': year_data
@@ -104,7 +129,8 @@ def query():
                     )
                     year_counter += 1
 
-                return jsonify(year_data)
+                print(len(years_data), 'years sent.')
+                return jsonify(years_data)
 
             else:
                 raise ValueError("Invalid interval")
