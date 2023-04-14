@@ -64,3 +64,37 @@ body {
 .react_time_range__handle_marker {
   background-color: #BEEF63;
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sidebar {
+  /* background-color: #f1f1f1; */
+  width: 200px;
+  height: 100%;
+  left: 0;
+}
+
+.sidebar a {
+  display: block;
+  color:black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.basecomponent {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
