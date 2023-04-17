@@ -91,15 +91,17 @@ class BaseComponent extends React.Component {
     const { category } = this.props;
 
     return (
-      <div style={{flex: 1,padding: 30}}>
-        <h2 style={{marginLeft:20}}>{category.name}</h2>
-        <LineChart width={730} height={250} data={data}>
+      <div style={{flex: 1,padding: 50}}>
+        
+        <LineChart width={1100} height={400} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="week_number" />
-            <YAxis />
+            <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>
+            <YAxis stroke = "#ffffff" strokeWidth={3}/>
             <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey={'data.'+category.name.toLowerCase()} stroke="#82ca9d" />
+            <Legend wrapperStyle={{right: -30}} layout="vertical" verticalAlign="top" align="right"/>
+            {category.map(c => (
+            <Line type="monotone" dataKey={'data.'+c.name.toLowerCase()} strokeWidth={3}  stroke={c.color} />
+            ))}
         </LineChart>
       </div>
     );

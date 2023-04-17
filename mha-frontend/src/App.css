@@ -1,5 +1,5 @@
 body {
-  background-color: #fff;
+  background-color: rgb(16, 16, 16);
 }
 
 .header-with-logo{
@@ -12,7 +12,7 @@ body {
   width: 100%;
   font-size: 35px;
   color: black;
-  background: linear-gradient(to right, #ffffff, #BEEF63);
+  background: linear-gradient(to right, #ffffff, #4285F4);
   background-size: 105% 200%;
   background-position: 100% 100%;
   justify-content: space-between;
@@ -42,13 +42,14 @@ body {
 }
 
 .selected {
-  background-color: #BEEF63;
+  background-color: #4285F4;
   color: black;
 }
 
 /* Gradient Range Slider */
 .react_time_range__track {
-  background: linear-gradient(to right, #ffffff, #BEEF63);
+  /* background: linear-gradient(to right, #ffffff, #BEEF63); */
+  background: linear-gradient(to right, #ffffff, #4285F4);
   background-size: 200% 200%;
   background-position: 100% 100%;
   border: none;
@@ -87,7 +88,7 @@ body {
 }
 
 .sidebar a:hover {
-  background-color: #ddd;
+  background-color: #4285F4;
   color: black;
 }
 

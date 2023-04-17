@@ -7,13 +7,13 @@ class Sidebar extends Component {
 
     return (
       <div> 
-        <h3 style={{marginLeft:10}}>Categories</h3>
+        <h3 style={{marginLeft:10, color:"white"}}>Categories</h3>
         {categories.map(category => (
-          <Link
+        <Link
             key={category.id} 
-            to={`/category/${category.id}`}
-            onClick={() => onChange(category)}>
-            {category.name}
+            to={`/category/categories`}
+            onClick={() => onChange(category)} style={{color:"white"}}>
+            {category.name} 
           </Link>
         ))}
       </div>

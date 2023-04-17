@@ -11,7 +11,7 @@ import {
 
 
 class TimeSlider extends React.Component {
-    state = {
+    state = { 
         error: false,
         selectedInterval,
         selectedButton: "Year",
@@ -66,7 +66,7 @@ class TimeSlider extends React.Component {
         return (
             <div>
                 <div class="interval">
-                    <span>Select interval by : </span>
+                    <span style={{color:"white"}}>Select interval by : </span>
                     <button
                         className={`interval-button ${selectedButton === "Day" ? "selected" : ""}`}
                         type="button"
@@ -96,8 +96,8 @@ class TimeSlider extends React.Component {
                 </div>
 
                 <div className="interval">
-                    <span>Selected Interval : </span>
-                    <span className="interval-date">
+                    <span style={{color:"white"}}>Selected Interval : </span>
+                    <span className="interval-date" style={{color:"white"}}>
                         {selectedInterval
                             .map((d) => format(d, formatString))
                             .join(" - ")}

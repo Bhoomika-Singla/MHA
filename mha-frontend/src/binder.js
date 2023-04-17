@@ -6,39 +6,48 @@ import BaseComponent from './Charts';
 const categories = [
   {
     id: 1,
-    name: 'Acousticness'
+    name: 'Acousticness',
+    color:'#8884d8'
   },
   {
     id: 2,
-    name: 'Danceability'
+    name: 'Danceability',
+    color:'#00ff00'
   },
   {
     id: 3,
-    name: 'Instrumentalness'
+    name: 'Instrumentalness',
+    color:'#87ceeb'
   },
   {
     id: 4,
-    name: 'Liveness'
+    name: 'Liveness',
+    color:'#ffff00'
   },
   {
     id: 5,
-    name: 'Loudness'
+    name: 'Loudness',
+    color:'#008080'
   },
   {
     id: 6,
-    name: 'Speechiness'
+    name: 'Speechiness',
+    color:'#ff6347'
   },
   {
     id: 7,
-    name: 'Tempo'
+    name: 'Tempo',
+    color:'#ffa500'
   },
   {
     id: 8,
-    name: 'Energy'
+    name: 'Energy',
+    color:'#ffc0cb'
   },
   {
     id: 9,
-    name: 'Valence'
+    name: 'Valence',
+    color:'#808080'
   },
 ];
 
@@ -46,17 +55,24 @@ class Binder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: categories[0]
+        selectedcategories: [],
+        selectedCategory: categories[0]
     };
   }
 
   handleCategoryChange = (category) => {
     this.setState({ selectedCategory: category });
+    const { selectedcategories } = this.state;
+    if (selectedcategories.includes(category)) {
+      this.setState({ selectedcategories: selectedcategories.filter(c => c !== category) });
+    } else {
+      this.setState({ selectedcategories: [...selectedcategories, category] });
+    }
   };
 
   render() {
-    const { selectedCategory } = this.state;
-
+    const { selectedcategories } = this.state;
+    
     return (
       <BrowserRouter>
       <div className='container'>
@@ -65,8 +81,8 @@ class Binder extends Component {
             </div>
             <div className='basecomponent'>
                 <Routes>
-                    <Route path="/category/:categoryId" element={<BaseComponent category={selectedCategory}/>} />
-                    <Route path="/" element = {<BaseComponent category={selectedCategory} />} />
+                    <Route path="/category/categories" element={<BaseComponent category={selectedcategories}/>} />
+                    {/* <Route path="/" element = {<BaseComponent category={selectedCategory} />} /> */}
                 </Routes>
             </div>
         </div>
