@@ -137,3 +137,78 @@ def query():
         except Exception as e:
             print("ERROR:", e)
             return e
+        
+
+@app.route("/query2", methods=['GET'])
+def query2():
+    if request.method == 'GET':
+        try:
+
+            start_date_str = request.args.get('startDate')
+            end_date_str = request.args.get('endDate')
+            
+            if len(end_date_str) != 10 or len(start_date_str) != 10:
+                raise ValueError("Invalid date format")
+            
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d")#.date()
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d")#.date()
+
+            print(type(start_date))
+
+            interval = request.args.get('interval')
+
+            print("Querying for dates... START:", start_date, "END", end_date, "on a", interval, "interval")
+
+         
+            pipeline = [     {
+                "$addFields":{
+                    "date_field":{
+                        "$dateFromString":{
+                            "dateString": "$date",
+                            "format":"%Y-%m-%d"
+                        }
+                    }
+                }
+            },
+            {
+                "$match":{
+                    "date_field":{
+                        "$gte": start_date,
+                        "$lte": end_date,
+                    }
+                }
+            },
+            {   
+                "$project":{
+                    "_id": 0,  "danceability": 1, 'energy': 1, 'loudness': 1, 'speechiness': 1, 'acousticness': 1, 'instrumentalness': 1, 'liveness': 1, 'valence': 1, 'tempo': 1, 'duration_ms': 1, 'date': 1, 'key': 1, 'mode': 1, 'time_signature': 1, 'year': 1, 'month': 1, 'day': 1, 'date_field': 1
+                }
+            },
+            {
+                "$sort":{
+                    "date_field":1
+                }
+            }
+            ]
+
+            data = []
+            values = db['week_aggregate_top_100'].aggregate(pipeline)
+            count = 1
+            for doc in values:
+                del doc['date']
+                del doc['date_field']
+                del doc['day']
+                del doc['month']
+                del doc['year']
+                dictionary = {}
+                dictionary['data'] = doc
+                dictionary['week_number'] = count
+                data.append(dictionary)
+                count +=1
+
+
+            return jsonify(data)
+
+        except Exception as e:
+            print("ERROR:", e)
+            return e
+
