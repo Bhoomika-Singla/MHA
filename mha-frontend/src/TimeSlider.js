@@ -50,7 +50,7 @@ class TimeSlider extends React.Component {
             endDate
         };
 
-        axios.post("/intervals", intervalData)
+        axios.post("/query", intervalData)
             .then(response => {
                 // Handle success
                 console.log(response.data);

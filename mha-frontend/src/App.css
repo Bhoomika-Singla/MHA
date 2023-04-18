@@ -12,7 +12,7 @@ body {
   width: 100%;
   font-size: 35px;
   color: black;
-  background: linear-gradient(to right, #ffffff, #4285F4);
+  background: linear-gradient(to right, #000000, #4285F4);
   background-size: 105% 200%;
   background-position: 100% 100%;
   justify-content: space-between;
@@ -38,18 +38,18 @@ body {
   border-radius: 20%;
   color: black;
   margin: 0px 10px 0px 10px;
-  background-color: #F5F7FA
+  /* background-color: #F5F7FA */
 }
 
 .selected {
   background-color: #4285F4;
-  color: black;
+  color: #ffffff;
 }
 
 /* Gradient Range Slider */
 .react_time_range__track {
   /* background: linear-gradient(to right, #ffffff, #BEEF63); */
-  background: linear-gradient(to right, #ffffff, #4285F4);
+  background: linear-gradient(to right, #000000, #4285F4);
   background-size: 200% 200%;
   background-position: 100% 100%;
   border: none;
@@ -63,7 +63,11 @@ body {
 }
 
 .react_time_range__handle_marker {
-  background-color: #BEEF63;
+  background-color: #4285F4 !important;
+}
+
+.react_time_range__rail__inner {
+  background-color: rgb(16, 16, 16) !important;
 }
 
 .container {
