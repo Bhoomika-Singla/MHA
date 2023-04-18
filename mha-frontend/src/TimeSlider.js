@@ -34,16 +34,23 @@ class TimeSlider extends React.Component {
     };
 
     sendIntervalData = () => {
-        const { selectedButton, selectedInterval, formatString } = this.state;
-        const startDate = format(selectedInterval[0], formatString);
-        const endDate = format(selectedInterval[1], formatString);
+        const { selectedButton, selectedInterval } = this.state;
+
+        let intervalFormat = 'yyyy-MM-dd';
+        if (selectedButton === 'Year')
+            intervalFormat = 'yyyy';
+        else if (selectedButton === 'Month')
+            intervalFormat = 'yyyy-MM';
+
+        const startDate = format(selectedInterval[0], intervalFormat);
+        const endDate = format(selectedInterval[1], intervalFormat);
         const intervalData = {
             interval: selectedButton,
             startDate,
             endDate
         };
 
-        axios.post("/intervals", intervalData)
+        axios.post("/query", intervalData)
             .then(response => {
                 // Handle success
                 console.log(response.data);
@@ -59,7 +66,7 @@ class TimeSlider extends React.Component {
         return (
             <div>
                 <div class="interval">
-                    <span>Select interval by : </span>
+                    <span style={{color:"white"}}>Select interval by : </span>
                     <button
                         className={`interval-button ${selectedButton === "Day" ? "selected" : ""}`}
                         type="button"
@@ -89,8 +96,8 @@ class TimeSlider extends React.Component {
                 </div>
 
                 <div className="interval">
-                    <span>Selected Interval : </span>
-                    <span className="interval-date">
+                    <span style={{color:"white"}}>Selected Interval : </span>
+                    <span className="interval-date" style={{color:"white"}}>
                         {selectedInterval
                             .map((d) => format(d, formatString))
                             .join(" - ")}
