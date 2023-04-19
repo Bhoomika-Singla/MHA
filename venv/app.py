@@ -7,12 +7,16 @@ import pymongo
 import numpy as np
 from datetime import datetime
 import os
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
     return app
+
+
 
 def get_available_weeks(db):
     weeks = []
@@ -146,6 +150,8 @@ def query2():
 
             start_date_str = request.args.get('startDate')
             end_date_str = request.args.get('endDate')
+
+            print(request)
             
             if len(end_date_str) != 10 or len(start_date_str) != 10:
                 raise ValueError("Invalid date format")
@@ -205,8 +211,9 @@ def query2():
                 data.append(dictionary)
                 count +=1
 
-
-            return jsonify(data)
+            response = jsonify(data)
+            response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+            return response
 
         except Exception as e:
             print("ERROR:", e)

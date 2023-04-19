@@ -50,7 +50,9 @@ class TimeSlider extends React.Component {
             endDate
         };
 
-        axios.post("/query", intervalData)
+        console.log(intervalData);
+
+        axios.get("http://127.0.0.1:5000/query2", {params:{startDate:startDate , endDate:endDate}})
             .then(response => {
                 // Handle success
                 console.log(response.data);
