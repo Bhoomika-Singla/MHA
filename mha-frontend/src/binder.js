@@ -2,52 +2,53 @@ import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './categories';
 import BaseComponent from './Charts';
+import TopSongsComponent from './TopSongs';
 
 const categories = [
   {
     id: 1,
     name: 'Acousticness',
-    color:'#8884d8'
+    color: '#8884d8'
   },
   {
     id: 2,
     name: 'Danceability',
-    color:'#00ff00'
+    color: '#00ff00'
   },
   {
     id: 3,
     name: 'Instrumentalness',
-    color:'#87ceeb'
+    color: '#87ceeb'
   },
   {
     id: 4,
     name: 'Liveness',
-    color:'#ffff00'
+    color: '#c8c813'
   },
   {
     id: 5,
     name: 'Loudness',
-    color:'#008080'
+    color: '#008080'
   },
   {
     id: 6,
     name: 'Speechiness',
-    color:'#ff6347'
+    color: '#ff6347'
   },
   {
     id: 7,
     name: 'Tempo',
-    color:'#ffa500'
+    color: '#ffa500'
   },
   {
     id: 8,
     name: 'Energy',
-    color:'#ffc0cb'
+    color: '#ffc0cb'
   },
   {
     id: 9,
     name: 'Valence',
-    color:'#808080'
+    color: '#808080'
   },
 ];
 
@@ -55,8 +56,8 @@ class Binder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        selectedcategories: [],
-        selectedCategory: categories[0]
+      selectedcategories: [],
+      selectedCategory: categories[0]
     };
   }
 
@@ -72,19 +73,22 @@ class Binder extends Component {
 
   render() {
     const { selectedcategories } = this.state;
-    
+
     return (
       <BrowserRouter>
-      <div className='container'>
-            <div className = "sidebar">
+        <div className='container'>
+          <div className="sidebar">
             <Sidebar categories={categories} onChange={this.handleCategoryChange} />
-            </div>
-            <div className='basecomponent'>
-                <Routes>
-                    <Route path="/category/categories" element={<BaseComponent category={selectedcategories}/>} />
-                    {/* <Route path="/" element = {<BaseComponent category={selectedCategory} />} /> */}
-                </Routes>
-            </div>
+          </div>
+          <div className='basecomponent'>
+            <Routes>
+              <Route path="/category/categories" element={<BaseComponent category={selectedcategories} />} />
+              {/* <Route path="/" element = {<BaseComponent category={selectedCategory} />} /> */}
+            </Routes>
+          </div>
+        </div>
+        <div class="top-songs">
+          <TopSongsComponent />
         </div>
       </BrowserRouter>
     );

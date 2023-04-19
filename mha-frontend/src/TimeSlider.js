@@ -64,7 +64,7 @@ class TimeSlider extends React.Component {
     render() {
         const { selectedInterval, error, step, selectedButton, formatString } = this.state;
         return (
-            <div>
+            <div class="timeslider-container">
                 <div class="interval">
                     <span style={{color:"white"}}>Select interval by : </span>
                     <button
