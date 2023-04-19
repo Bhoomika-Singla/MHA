@@ -26,6 +26,7 @@ spotify_token = auth_manager.get_access_token(as_dict=False)
 
 
 
+
 #=========================================================================
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
