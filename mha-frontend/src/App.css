@@ -1,8 +1,8 @@
 body {
-  background-color: #fff;
+  background-color: rgb(16, 16, 16);
 }
 
-.header-with-logo{
+.header-with-logo {
   display: flex;
 }
 
@@ -12,11 +12,18 @@ body {
   width: 100%;
   font-size: 35px;
   color: black;
-  background: linear-gradient(to right, #ffffff, #BEEF63);
+  background: linear-gradient(to right, #000000, #4285F4);
   background-size: 105% 200%;
   background-position: 100% 100%;
   justify-content: space-between;
   padding: 5px;
+}
+
+.timeslider-container {
+  background-color: #1c1f2e;
+  border-radius: 20px;
+  margin: 10px 22px 7px 22px;
+  padding-bottom: 5px;
 }
 
 .interval {
@@ -35,20 +42,20 @@ body {
   height: 35px;
   width: 100px;
   border: none;
-  border-radius: 20%;
-  color: black;
+  border-radius: 15px;
+  color: #000000;
   margin: 0px 10px 0px 10px;
-  background-color: #F5F7FA
+  background-color: #acccea;
 }
 
 .selected {
-  background-color: #BEEF63;
-  color: black;
+  background-color: #4285F4;
+  color: #ffffff;
 }
 
 /* Gradient Range Slider */
 .react_time_range__track {
-  background: linear-gradient(to right, #ffffff, #BEEF63);
+  background: linear-gradient(to right, #000000, #4285F4);
   background-size: 200% 200%;
   background-position: 100% 100%;
   border: none;
@@ -62,5 +69,101 @@ body {
 }
 
 .react_time_range__handle_marker {
-  background-color: #BEEF63;
+  background-color: #4285F4 !important;
+}
+
+.react_time_range__rail__inner {
+  background-color: rgb(16, 16, 16) !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 10px;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100%;
+  left: 0;
+  background-color: #1c1f2e;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #4285F4;
+  color: black;
+  border-radius: 15px;
+}
+
+.basecomponent {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1c1f2e;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.top-songs {
+  color: #ffffff;
+  padding: 50px;
+  background-color: #1c1f2e;
+  border-radius: 20px;
+  margin: 0px 22px 7px 22px;
+}
+
+.top-songs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.top-songs-table th,
+.top-songs-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.top-songs-table th {
+  background-color: #020101;
+}
+
+.top-songs-table tbody tr:hover {
+  background-color: #4285F4;
+  color: #ffffff;
+}
+
+.top-songs-table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.top-songs-table a:hover {
+  text-decoration: underline;
+}
+
+.song-cover-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.song-cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -1,8 +1,8 @@
 import billboard
 import datetime
-import pandas as pd
 import requests
 import spotipy
+import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv
 
@@ -23,6 +23,7 @@ except Exception:
 auth_manager = SpotifyClientCredentials()
 sp = spotipy.Spotify(auth_manager=auth_manager)
 spotify_token = auth_manager.get_access_token(as_dict=False)
+
 
 
 
@@ -52,6 +53,7 @@ def get_analysis_features(song_ids):
  
     # Call Analysis API /audio-analysis/:id
     response = requests.get(url, auth=BearerAuth(spotify_token))
+    print(response)
     res = response.json()
     return res
 
@@ -86,11 +88,6 @@ def get_spotify_id(song_info, limit = 1):
         print(url)
         print(json_data)
 
-    #try:
-    #    if json_data['tracks']['items'] == []:   # skip over 
-    #        return 0
-    #except:
-    #    print(json_data)
 
     
     if json_data['tracks']['items'] == []:   # skip over 
@@ -115,7 +112,7 @@ def get_spotify_id(song_info, limit = 1):
 
 
 def generate_dates():   # restart from 1980-08-17
-    dates_gen= pd.date_range("10-16-2005","03-22-2023",freq='W').tolist()
+    dates_gen= pd.date_range("12-30-2018","03-22-2023",freq='W').tolist()
     dates = []
     for d in dates_gen:  
         dates.append(d.strftime('%Y-%m-%d')[:10])
