@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './categories';
 import BaseComponent from './Charts';
 import TopSongsComponent from './TopSongs';
+import AllTimeViewCharts from './components/AllTimeViewCharts'
+import TimeCharts from './components/TimeCharts'
 
 const categories = [
   {
@@ -27,29 +29,28 @@ const categories = [
   },
   {
     id: 5,
-    name: 'Loudness',
-    color: '#008080'
-  },
-  {
-    id: 6,
     name: 'Speechiness',
     color: '#ff6347'
   },
   {
-    id: 7,
-    name: 'Tempo',
+    id: 6,
+    name: 'Energy',
     color: '#ffa500'
   },
   {
-    id: 8,
-    name: 'Energy',
-    color: '#ffc0cb'
+    id: 7,
+    name: 'Tempo',
+    color: '#ffc0cb',
+    key: 'tempo',
+    fill:"#8884d8"
   },
   {
-    id: 9,
-    name: 'Valence',
-    color: '#808080'
-  },
+    id: 8,
+    name: 'Duration',
+    color: '#008080',
+    key: 'duration_ms',
+    fill:"#82ca9d"
+  }
 ];
 
 class Binder extends Component {
@@ -57,22 +58,24 @@ class Binder extends Component {
     super(props);
     this.state = {
       selectedcategories: [],
-      selectedCategory: categories[0]
+      selectedCategory: categories[6]
     };
   }
 
   handleCategoryChange = (category) => {
-    this.setState({ selectedCategory: category });
+    this.setState({ selectedCategory: category, selectedCategory:category});
     const { selectedcategories } = this.state;
-    if (selectedcategories.includes(category)) {
-      this.setState({ selectedcategories: selectedcategories.filter(c => c !== category) });
-    } else {
-      this.setState({ selectedcategories: [...selectedcategories, category] });
-    }
+    if(category.name != "Tempo" && category.name != "Duration"){
+      if (selectedcategories.includes(category)) {
+        this.setState({ selectedcategories: selectedcategories.filter(c => c !== category) });
+      } else {
+        this.setState({ selectedcategories: [...selectedcategories, category] });
+      }
+  }
   };
 
   render() {
-    const { selectedcategories } = this.state;
+    const { selectedcategories,selectedCategory } = this.state;
 
     return (
       <BrowserRouter>
@@ -83,9 +86,13 @@ class Binder extends Component {
           <div className='basecomponent'>
             <Routes>
               <Route path="/category/categories" element={<BaseComponent category={selectedcategories} />} />
-              {/* <Route path="/" element = {<BaseComponent category={selectedCategory} />} /> */}
+              <Route path="/category/timeCharts" element = {<TimeCharts category={selectedCategory} />} />
             </Routes>
           </div>
+          
+        </div>
+        <div className='all-time-charts'>
+            <AllTimeViewCharts />
         </div>
         <div class="top-songs">
           <TopSongsComponent />

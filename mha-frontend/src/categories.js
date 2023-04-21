@@ -11,7 +11,7 @@ class Sidebar extends Component {
         {categories.map(category => (
         <Link
             key={category.id} 
-            to={`/category/categories`}
+            to={(category.name === "Tempo" || category.name === "Duration")  ? '/category/timeCharts' : '/category/categories'}
             onClick={() => onChange(category)} style={{color:"white"}}>
             {category.name} 
           </Link>

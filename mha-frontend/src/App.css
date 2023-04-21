@@ -110,10 +110,21 @@ body {
   flex: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
+  background-color: #1c1f2e;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.all-time-charts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
   background-color: #1c1f2e;
   border-radius: 20px;
-  margin: 10px;
+  margin: 20px;
+  justify-content: space-evenly;
 }
 
 .top-songs {
@@ -166,4 +177,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@font-face {
+  font-family: 'Musical Symbols';
+  src: url('./Musical.ttf') format('truetype');
 }

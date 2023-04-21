@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, CartesianGrid, XAxis,YAxis,Tooltip,Legend} from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis,YAxis,Tooltip,Legend} from 'recharts';
 
 //TODO: Make changes to fetch data through API
 const data = 
@@ -86,25 +86,26 @@ const data =
     }
 ]
 
-class BaseComponent extends React.Component {
+class TimeCharts extends React.Component {
   render() {
     const { category } = this.props;
 
     return (
       <div style={{flex: 1,padding: 50}}>
-        <LineChart width={1100} height={350} data={data}>
+        <BarChart width={1100} height={350} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>
             <YAxis stroke = "#ffffff" strokeWidth={3}/>
             <Tooltip />
             <Legend wrapperStyle={{right: -30}} layout="vertical" verticalAlign="top" align="right"/>
-            {category.map(c => (
-            <Line type="monotone" dataKey={'data.'+c.name.toLowerCase()} strokeWidth={3}  stroke={c.color} />
-            ))}
-        </LineChart>
-      </div>
+            
+            <Bar type="monotone" dataKey={'data.'+category.key.toLowerCase()} strokeWidth={3}  stroke={category.color} fill={category.fill} />
+            
+        </BarChart>
+            {/* <button class="dropbtn" onClick={openDropDown}>Unit</button> */}
+        </div>
     );
   }
 }
 
-export default BaseComponent;
+export default TimeCharts;
