@@ -1,8 +1,8 @@
 import React from "react";
 import './App.css';
-import Header from "./Header";
-import TimeSlider from "./TimeSlider";
-import Binder from "./binder"
+import Header from "./components/Header";
+import TimeSlider from "./components/TimeSlider";
+import Binder from "./components/binder"
 
 class App extends React.Component {
 

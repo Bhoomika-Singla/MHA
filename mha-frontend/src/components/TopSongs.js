@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css'; 
-import cover from "./song_cover.jpeg";
+import '../App.css'; 
+import cover from "../song_cover.jpeg";
 
 class TopSongsComponent extends Component {
   constructor(props) {

@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './categories';
 import BaseComponent from './Charts';
 import TopSongsComponent from './TopSongs';
-import AllTimeViewCharts from './components/AllTimeViewCharts'
-import TimeCharts from './components/TimeCharts'
+import AllTimeViewCharts from './AllTimeViewCharts'
+import TimeCharts from './TimeCharts'
 
 const categories = [
   {

@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
-import './App.css';
+import '../App.css';
 
 import {
     selectedInterval,
