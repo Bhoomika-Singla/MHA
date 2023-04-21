@@ -159,31 +159,49 @@ def query():
             return e
         
 
+# required fields   'startDate':'YYYY-MM-DD'   
+#                   'endDate':'YYYY-MM-DD'  
+#                   'interval' :'week' or 'month' or 'year'
+# note the date can be 'YYYY-MM' or just 'YYYY'  as long as 'month' 'year' 'week'
+# granularity is specified
+# DON'T use top1
 @app.route("/query2", methods=['GET'])
 def query2():
     if request.method == 'GET':
         try:
-
             start_date_str = request.args.get('startDate')
             end_date_str = request.args.get('endDate')
-
-            print(request)
-            
-            if len(end_date_str) != 10 or len(start_date_str) != 10:
-                raise ValueError("Invalid date format")
-            
-            start_date = datetime.strptime(start_date_str, "%Y-%m-%d")#.date()
-            end_date = datetime.strptime(end_date_str, "%Y-%m-%d")#.date()
-
-            print(type(start_date))
-
             interval = request.args.get('interval')
+            top_count = request.args.get('topCount')
 
-            print("Querying for dates... START:", start_date, "END", end_date, "on a", interval, "interval")
+            if(interval == 'week'):
+                start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+                end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
 
+            if(interval == 'month'):
+                start_date = datetime.strptime(start_date_str, "%Y-%m")
+                end_date = datetime.strptime(end_date_str, "%Y-%m")
+
+            if(interval == 'year'):
+                start_date = datetime.strptime(start_date_str, "%Y")
+                end_date = datetime.strptime(end_date_str, "%Y")
+
+            #if len(end_date_str) != 10 or len(start_date_str) != 10:
+            #    raise ValueError("Invalid date format")
+
+            if(top_count == 'top100'):
+                collection = db['week_aggregate_top_100']
+            if(top_count == 'top10'):
+                collection = db['week_aggregate_top_10']
+            if(top_count == 'top1'):
+                collection = db['week_aggregate_top1']
+                
+
+
+            #print("Querying for dates... START:", start_date, "END", end_date, "on a", interval, "interval")
          
             pipeline = [     {
-                "$addFields":{
+                "$addFields":{  
                     "date_field":{
                         "$dateFromString":{
                             "dateString": "$date",
@@ -213,14 +231,17 @@ def query2():
             ]
 
             data = []
-            values = db['week_aggregate_top_100'].aggregate(pipeline)
+            values = collection.aggregate(pipeline)
+
             count = 1
             for doc in values:
+                print(doc)
                 del doc['date']
                 del doc['date_field']
-                del doc['day']
-                del doc['month']
-                del doc['year']
+                if(top_count != 'top1'):
+                    del doc['day']
+                    del doc['month']
+                    del doc['year']
                 dictionary = {}
                 dictionary['data'] = doc
                 dictionary['week_number'] = count
@@ -231,11 +252,13 @@ def query2():
             response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
             return response
 
+
         except Exception as e:
             print("ERROR:", e)
             return e
 
 
+# required fields   'startDate':'YYYY-MM-DD'   'endDate':'YYYY-MM-DD'  'songCount':int 
 @app.route("/top_songs", methods=['GET'])
 def top_songs():
     if request.method == 'GET':
@@ -243,7 +266,7 @@ def top_songs():
             
             start_date_str = request.args.get('startDate')
             end_date_str = request.args.get('endDate')
-            song_count = request.args.get('song_count')
+            song_count = request.args.get('songCount')
 
             if len(end_date_str) != 10 or len(start_date_str) != 10:
                 raise ValueError("Invalid date format")
@@ -311,16 +334,11 @@ def top_songs():
                 response.append(info)
 
 
-            print(response)
-
             response = jsonify(response)
             response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
 
-
-
             return response
                 
-
 
         except Exception as e:
             print("ERROR:", e)
