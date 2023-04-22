@@ -3,6 +3,7 @@ import axios from 'axios';
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
 import '../App.css';
+import appContext from '../appContext'
 
 import {
     selectedInterval,
@@ -11,12 +12,14 @@ import {
 
 
 class TimeSlider extends React.Component {
+    static contextType = appContext
     state = { 
         error: false,
         selectedInterval,
         selectedButton: "Year",
         step: 31557600000,  // default step for year
         formatString: "yyyy",
+        updatedData: this.context.data
     };
 
     errorHandler = ({ error }) => this.setState({ error });
@@ -33,6 +36,11 @@ class TimeSlider extends React.Component {
         });
     };
 
+    handleUpdateData=(data)=> {
+        this.setState({updatedData:data});
+        this.context.setData(this.state.updatedData);
+    }
+
     sendIntervalData = () => {
         const { selectedButton, selectedInterval } = this.state;
 
@@ -43,21 +51,25 @@ class TimeSlider extends React.Component {
 
         const startDate = format(selectedInterval[0], intervalFormat);
         const endDate = format(selectedInterval[1], intervalFormat);
+        const intervalType = selectedButton === 'Day' ? 'Week' : selectedButton
         const intervalData = {
             interval: selectedButton,
             startDate,
-            endDate
+            endDate,
+            intervalType
         };
 
         console.log(intervalData);
 
         axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
+        // axios.get("http://127.0.0.1:5000/query2", {params:{startDate:startDate , endDate:endDate,interval:intervalType.toLowerCase(),topCount:"top1"}})
             .then(response => {
                 // Handle success
+                this.handleUpdateData(response.data)
                 console.log(response.data);
             })
             .catch(error => {
-                // Handle error
+                // Handle error 
                 console.error(error);
             });
         
@@ -76,8 +88,8 @@ class TimeSlider extends React.Component {
     render() {
         const { selectedInterval, error, step, selectedButton, formatString } = this.state;
         return (
-            <div class="timeslider-container">
-                <div class="interval">
+            <div className="timeslider-container">
+                <div className="interval">
                     <span style={{color:"white"}}>Select interval by : </span>
                     <button
                         className={`interval-button ${selectedButton === "Day" ? "selected" : ""}`}

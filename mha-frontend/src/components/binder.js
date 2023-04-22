@@ -39,13 +39,27 @@ const categories = [
   },
   {
     id: 7,
+    name: 'Loudness',
+    color: '#ffc658',
+    key: 'loudness',
+    fill:"#ffc658"
+  },
+  {
+    id: 8,
+    name: 'Valence',
+    color: '#8ebf42',
+    key: 'valence',
+    fill:"#8ebf42"
+  },
+  {
+    id: 9,
     name: 'Tempo',
     color: '#ffc0cb',
     key: 'tempo',
     fill:"#8884d8"
   },
   {
-    id: 8,
+    id: 10,
     name: 'Duration',
     color: '#008080',
     key: 'duration_ms',
@@ -65,7 +79,7 @@ class Binder extends Component {
   handleCategoryChange = (category) => {
     this.setState({ selectedCategory: category, selectedCategory:category});
     const { selectedcategories } = this.state;
-    if(category.name != "Tempo" && category.name != "Duration"){
+    if(category.name != "Tempo" && category.name != "Duration" && category.name != "Loudness" && category.name != "Valence"){
       if (selectedcategories.includes(category)) {
         this.setState({ selectedcategories: selectedcategories.filter(c => c !== category) });
       } else {
@@ -87,12 +101,12 @@ class Binder extends Component {
             <Routes>
               <Route path="/category/categories" element={<BaseComponent category={selectedcategories} />} />
               <Route path="/category/timeCharts" element = {<TimeCharts category={selectedCategory} />} />
+              <Route path="/category/allTimeCharts" element={<AllTimeViewCharts category ={selectedCategory} />} />
             </Routes>
           </div>
-          
         </div>
-        <div className='all-time-charts'>
-            <AllTimeViewCharts />
+        <div className="top-songs">
+          <TopSongsComponent />
         </div>
       </BrowserRouter>
     );

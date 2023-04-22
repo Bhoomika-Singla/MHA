@@ -121,17 +121,6 @@ body {
   margin: 10px;
 }
 
-.all-time-charts {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  background-color: #1c1f2e;
-  border-radius: 20px;
-  margin: 20px;
-  justify-content: space-evenly;
-}
-
 .top-songs {
   color: #ffffff;
   padding: 10px 50px 20px 50px;

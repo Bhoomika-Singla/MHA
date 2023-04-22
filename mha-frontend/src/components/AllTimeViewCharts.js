@@ -1,89 +1,91 @@
 import React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis,YAxis,Tooltip,Legend, Label} from 'recharts';
+import appContext from '../appContext';
+
 //TODO: Make changes to fetch data through API
-const data = 
-[
-    {
-        "data": {
-            "_id": "",
-            "acousticness": 0.17,
-            "danceability": 0.63,
-            "date": "2003-11-16",
-            "duration_ms": 236160.73,
-            "energy": 0.7,
-            "instrumentalness": 0.03,
-            "key": 4,
-            "liveness": 0.18,
-            "loudness": -6.68,
-            "mode": 1,
-            "speechiness": 0.11,
-            "tempo": 117.19,
-            "time_signature": 4,
-            "valence": 0.56
-            },
-        "week_number": 1
-    },
-    {
-        "data": {
-            "_id": "",
-            "acousticness": 0.17,
-            "danceability": 0.63,
-            "date": "2003-11-23",
-            "duration_ms": 233484.26,
-            "energy": 0.7,
-            "instrumentalness": 0.04,
-            "key": 4,
-            "liveness": 0.18,
-            "loudness": -6.67,
-            "mode": 0,
-            "speechiness": 0.11,
-            "tempo": 114.96,
-            "time_signature": 4,
-            "valence": 0.55
-        },
-        "week_number": 2
-    },
-    {
-        "data": {
-        "_id": "",
-        "acousticness": 0.18,
-        "danceability": 0.64,
-        "date": "2003-11-30",
-        "duration_ms": 234613.32,
-        "energy": 0.7,
-        "instrumentalness": 0.04,
-        "key": 4,
-        "liveness": 0.19,
-        "loudness": -6.66,
-        "mode": 1,
-        "speechiness": 0.12,
-        "tempo": 113.86,
-        "time_signature": 4,
-        "valence": 0.45
-    },
-    "week_number": 3
-    },
-    {
-        "data": {
-            "_id": "",
-            "acousticness": 0.17,
-            "danceability": 0.64,
-            "date": "2003-12-14",
-            "duration_ms": 232871.69,
-            "energy": 0.71,
-            "instrumentalness": 0.03,
-            "key": 4,
-            "liveness": 0.2,
-            "loudness": -6.49,
-            "mode": 1,
-            "speechiness": 0.1,
-            "tempo": 111.78,
-            "time_signature": 4,
-            "valence": 0.57
-        },
-        "week_number": 4
-    }
-]
+// const data = 
+// [
+//     {
+//         "data": {
+//             "_id": "",
+//             "acousticness": 0.17,
+//             "danceability": 0.63,
+//             "date": "2003-11-16",
+//             "duration_ms": 236160.73,
+//             "energy": 0.7,
+//             "instrumentalness": 0.03,
+//             "key": 4,
+//             "liveness": 0.18,
+//             "loudness": -6.68,
+//             "mode": 1,
+//             "speechiness": 0.11,
+//             "tempo": 117.19,
+//             "time_signature": 4,
+//             "valence": 0.56
+//             },
+//         "week_number": 1
+//     },
+//     {
+//         "data": {
+//             "_id": "",
+//             "acousticness": 0.17,
+//             "danceability": 0.63,
+//             "date": "2003-11-23",
+//             "duration_ms": 233484.26,
+//             "energy": 0.7,
+//             "instrumentalness": 0.04,
+//             "key": 4,
+//             "liveness": 0.18,
+//             "loudness": -6.67,
+//             "mode": 0,
+//             "speechiness": 0.11,
+//             "tempo": 114.96,
+//             "time_signature": 4,
+//             "valence": 0.55
+//         },
+//         "week_number": 2
+//     },
+//     {
+//         "data": {
+//         "_id": "",
+//         "acousticness": 0.18,
+//         "danceability": 0.64,
+//         "date": "2003-11-30",
+//         "duration_ms": 234613.32,
+//         "energy": 0.7,
+//         "instrumentalness": 0.04,
+//         "key": 4,
+//         "liveness": 0.19,
+//         "loudness": -6.66,
+//         "mode": 1,
+//         "speechiness": 0.12,
+//         "tempo": 113.86,
+//         "time_signature": 4,
+//         "valence": 0.45
+//     },
+//     "week_number": 3
+//     },
+//     {
+//         "data": {
+//             "_id": "",
+//             "acousticness": 0.17,
+//             "danceability": 0.64,
+//             "date": "2003-12-14",
+//             "duration_ms": 232871.69,
+//             "energy": 0.71,
+//             "instrumentalness": 0.03,
+//             "key": 4,
+//             "liveness": 0.2,
+//             "loudness": -6.49,
+//             "mode": 1,
+//             "speechiness": 0.1,
+//             "tempo": 111.78,
+//             "time_signature": 4,
+//             "valence": 0.57
+//         },
+//         "week_number": 4
+//     }
+// ]
 
 const symbolMapping = {
     0: '\ue260',
@@ -102,7 +104,9 @@ const symbolMapping = {
 
   
 const CustomizedDot = (props) => {
-    const { cx, cy, stroke, payload, value } = props;
+  
+  const { cx, cy, stroke, payload, value, category } = props;
+  if(category.name === "Valence"){
     if (value> 0.5) {
       return (
         <svg x={cx - 10} y={cy - 10} width={20} height={20} fill="white" viewBox="0 0 1024 1024">
@@ -116,14 +120,17 @@ const CustomizedDot = (props) => {
         <path d="M517.12 53.248q95.232 0 179.2 36.352t145.92 98.304 98.304 145.92 36.352 179.2-36.352 179.2-98.304 145.92-145.92 98.304-179.2 36.352-179.2-36.352-145.92-98.304-98.304-145.92-36.352-179.2 36.352-179.2 98.304-145.92 145.92-98.304 179.2-36.352zM663.552 261.12q-15.36 0-28.16 6.656t-23.04 18.432-15.872 27.648-5.632 33.28q0 35.84 21.504 61.44t51.2 25.6 51.2-25.6 21.504-61.44q0-17.408-5.632-33.28t-15.872-27.648-23.04-18.432-28.16-6.656zM373.76 261.12q-29.696 0-50.688 25.088t-20.992 60.928 20.992 61.44 50.688 25.6 50.176-25.6 20.48-61.44-20.48-60.928-50.176-25.088zM520.192 602.112q-51.2 0-97.28 9.728t-82.944 27.648-62.464 41.472-35.84 51.2q-1.024 1.024-1.024 2.048-1.024 3.072-1.024 8.704t2.56 11.776 7.168 11.264 12.8 6.144q25.6-27.648 62.464-50.176 31.744-19.456 79.36-35.328t114.176-15.872q67.584 0 116.736 15.872t81.92 35.328q37.888 22.528 63.488 50.176 17.408-5.12 19.968-18.944t0.512-18.944-3.072-7.168-1.024-3.072q-26.624-55.296-100.352-88.576t-176.128-33.28z" />
       </svg>
     );
+  }
 };
 class AllTimeViewCharts extends React.Component {
+  static contextType = appContext
   render() {
     const { category } = this.props;
+    const {data} = this.context;
 
     return (
       <div style={{flex: 2,padding: 50,display: 'flex'}}>
-        <LineChart width={650} height={350} data={data}>
+        <LineChart width={1100} height={450} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>
             <YAxis stroke = "#ffffff" strokeWidth={3}/>
@@ -131,17 +138,9 @@ class AllTimeViewCharts extends React.Component {
             <Tooltip />
             <Legend wrapperStyle={{right: -30}} layout="vertical" verticalAlign="top" align="right"/>
             <Label value="Loudness" position="top" style={{ fontSize: '44px', fill: 'white', fontWeight: 'bold' }} />
-            <Line type="monotone" dataKey="data.loudness" stroke="#ffc658"  strokeWidth={3}/>
+            <Line type="monotone" key = {category.name} dataKey={'data.'+category.key.toLowerCase()} stroke={category.color} dot={<CustomizedDot category={category}/>} strokeWidth={3} />
             
         </LineChart> 
-        <LineChart width={650} height={350} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>
-            <YAxis stroke = "#ffffff" strokeWidth={3}/>
-            <Tooltip />
-            <Legend wrapperStyle={{right: -30}} layout="vertical" verticalAlign="top" align="right"/>        
-            <Line type="monotone" dataKey="data.valence" stroke="#8ebf42" dot={<CustomizedDot />} strokeWidth={3} />
-        </LineChart>
       </div>
     );
   }
