@@ -62,10 +62,10 @@ class TimeSlider extends React.Component {
             });
         
 
-        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'5'}})
+        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'10'}})
             .then(response => {
-                // Handle success
-                console.log(response.data);
+                const topSongsData = response.data;
+                this.props.handleTopSongsData(topSongsData);
             })
             .catch(error => {
                 // Handle error

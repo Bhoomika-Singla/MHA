@@ -94,9 +94,6 @@ class Binder extends Component {
         <div className='all-time-charts'>
             <AllTimeViewCharts />
         </div>
-        <div class="top-songs">
-          <TopSongsComponent />
-        </div>
       </BrowserRouter>
     );
   }
