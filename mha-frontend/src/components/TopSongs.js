@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css'; 
-import cover from "../song_cover.jpeg";
 
 class TopSongsComponent extends Component {
   constructor(props) {
@@ -13,12 +12,27 @@ class TopSongsComponent extends Component {
   componentDidMount() {
     // Fetch top songs data from API
     // Update the state with fetched data
-    const topSongsData = [
-      { id: 1, name: 'Song 1', artist: 'Artist 1', spotifyLink: 'https://open.spotify.com/track/trackId1' },
-      { id: 2, name: 'Song 2', artist: 'Artist 2', spotifyLink: 'https://open.spotify.com/track/trackId2' },
-      { id: 3, name: 'Song 3', artist: 'Artist 3', spotifyLink: 'https://open.spotify.com/track/trackId3' },
-      // ... add more songs data
-    ];
+    const topSongsData = 
+    [
+      {
+          artist: 'The Beatles',
+          image_url: 'https://i.scdn.co/image/ab67616d0000b273582d56ce20fe0146ffa0e5cf',
+          song: 'Hey Jude - Remastered 2015',
+          id: '6rPO02ozF3bM7NnOV4h6s2'
+      },
+      {
+          artist: 'Marvin Gaye',
+          image_url: 'https://i.scdn.co/image/ab67616d0000b273aff6573c5110e0732fbab3d8',
+          song: 'I Heard It Through The Grapevine',
+          id: '6rPO02ozF3bM7NnOV4h6s2'
+      },
+      {
+          artist: 'The 5th Dimension',
+          image_url: 'https://i.scdn.co/image/ab67616d0000b273ea38fd37178bbcb6d57269f3',
+          song: 'Aquarius/Let The Sunshine In (The Flesh Failures) - From the Musical \“Hair\"',
+          id: '6rPO02ozF3bM7NnOV4h6s2'
+      }
+  ]
     this.setState({ topSongs: topSongsData });
   }
 
@@ -37,17 +51,17 @@ class TopSongsComponent extends Component {
             </tr>
           </thead>
           <tbody>
-            {topSongs.map(song => (
-              <tr key={song.id}>
+            {topSongs.map(topSong => (
+              <tr>
                  <td>
                   <div className="song-cover-container">
-                    <img className="song-cover-image" src={cover} alt={song.name} />
+                    <img className="song-cover-image" src={topSong.image_url} alt={topSong.name} />
                   </div>
                 </td>
-                <td>{song.name}</td>
-                <td>{song.artist}</td>
+                <td>{topSong.song}</td>
+                <td>{topSong.artist}</td>
                 <td>
-                  <a href={song.spotifyLink} target="_blank" rel="noopener noreferrer">
+                  <a href={"https://open.spotify.com/track/"+topSong.id} target="_blank" rel="noopener noreferrer">
                     Listen on Spotify
                   </a>
                 </td>

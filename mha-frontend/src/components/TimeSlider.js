@@ -37,10 +37,9 @@ class TimeSlider extends React.Component {
         const { selectedButton, selectedInterval } = this.state;
 
         let intervalFormat = 'yyyy-MM-dd';
-        if (selectedButton === 'Year')
-            intervalFormat = 'yyyy';
-        else if (selectedButton === 'Month')
-            intervalFormat = 'yyyy-MM';
+        let interval = selectedButton;
+         if (selectedButton === 'Day')
+            interval = 'Week';
 
         const startDate = format(selectedInterval[0], intervalFormat);
         const endDate = format(selectedInterval[1], intervalFormat);
@@ -52,7 +51,7 @@ class TimeSlider extends React.Component {
 
         console.log(intervalData);
 
-        axios.get("http://127.0.0.1:5000/query2", {params:{startDate:startDate , endDate:endDate}})
+        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
             .then(response => {
                 // Handle success
                 console.log(response.data);
@@ -61,7 +60,18 @@ class TimeSlider extends React.Component {
                 // Handle error
                 console.error(error);
             });
-    }
+        
+
+        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'5'}})
+            .then(response => {
+                // Handle success
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle error
+                console.error(error);
+            });
+        }  
 
     render() {
         const { selectedInterval, error, step, selectedButton, formatString } = this.state;
