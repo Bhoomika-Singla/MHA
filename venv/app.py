@@ -162,6 +162,17 @@ def query():
             data = []
             values = db[aggregate_type].aggregate(pipeline)
             count = 0
+
+            averages = {
+                "acousticness": 0,
+                "danceability": 0,
+                "energy":0,
+                "instrumentalness": 0,
+                "liveness": 0,
+                "speechiness": 0,
+                "valence": 0
+            }
+
             for doc in values:
                 # [0] => Duration Dictionary, [1] => Duartion min in float
                 ms_conversion = convert_ms(doc['duration_ms'])
@@ -174,13 +185,26 @@ def query():
                 dictionary = {}
                 dictionary['data'] = doc
 
+                # Add current summation for each key
+                for key in averages.keys():
+                    averages[key] += doc[key]
+
                 # Add current week/month/year count
                 dictionary[number_option] = count
 
                 data.append(dictionary)
                 count +=1
 
-            response = jsonify(data)
+            # Average certain keys
+            for key in averages.keys():
+                averages[key] = round(averages[key]/count,2)
+
+            response_dictionary = {
+                'result_data_array': data,
+                'averages': averages,
+            }
+
+            response = jsonify(response_dictionary)
             response.headers.add('Access-Control-Allow-Origin', HOST)
 
             print(len(data), interval_print_option)
