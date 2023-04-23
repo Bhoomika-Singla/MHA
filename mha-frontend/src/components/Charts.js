@@ -12,7 +12,7 @@ class BaseComponent extends React.Component {
         const {data,selectedButton} = this.context;
         return (
         <div style={{flex: 1,padding: 40}}>
-            <LineChart width={1100} height={450} data={data}>
+            <LineChart width={1100} height={500} data={data.result_data_array}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey={selectedButton ==='year' ? 'data.'+selectedButton :selectedButton+'_number'} interval={selectedButton ==='week' ? 40 : 5} angle={-45} textAnchor="end" stroke = "#ffffff" strokeWidth={3} label={{value:this.labValue(selectedButton),dy:14.5, fill:"white", style: { fontWeight: 'bold' } }}/>
                 <YAxis stroke = "#ffffff" strokeWidth={3}/>

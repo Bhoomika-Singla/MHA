@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './categories';
 import BaseComponent from './Charts';
-import TopSongsComponent from './TopSongs';
 import AllTimeViewCharts from './AllTimeViewCharts'
 import TimeCharts from './TimeCharts'
+import AnalyticChart from './AnalyticChart';
 
 const categories = [
   {
@@ -66,6 +66,12 @@ const categories = [
     key_min: 'duration_min_sec.minutes',
     key_sec: 'duration_min_sec.seconds',
     fill:"#82ca9d"
+  },
+  {
+    id: 11,
+    name: 'Average',
+    color: '#ABF31C',
+    fill:"#ABF31C"
   }
 ];
 
@@ -104,6 +110,7 @@ class Binder extends Component {
               <Route path="/category/categories" element={<BaseComponent category={selectedcategories} />} />
               <Route path="/category/timeCharts" element = {<TimeCharts category={selectedCategory} />} />
               <Route path="/category/allTimeCharts" element={<AllTimeViewCharts category ={selectedCategory} />} />
+              <Route path="/category/average" element={<AnalyticChart />} />
             </Routes>
           </div>
         </div>

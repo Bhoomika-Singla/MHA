@@ -5,7 +5,6 @@ import TimeSlider from "./components/TimeSlider";
 import Binder from "./components/binder"
 import TopSongsComponent from "./components/TopSongs";
 import appContext from './appContext'
-import AnalyticChart from "./components/AnalyticChart";
 
 class App extends React.Component {
   constructor(props) {
@@ -65,9 +64,8 @@ class App extends React.Component {
         <Header />
         <TimeSlider handleTopSongsData={this.handleTopSongsData} />
         <Binder />
-        <AnalyticChart />
         {topSongsData ? <TopSongsComponent topSongsData={topSongsData} /> : null}
-       
+
         </div>
       </appContext.Provider>
     );
