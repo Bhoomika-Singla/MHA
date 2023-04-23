@@ -8,7 +8,7 @@ class BaseComponent extends React.Component {
         const { category } = this.props;
         const {data} = this.context;
         return (
-        <div style={{flex: 1,padding: 50}}>
+        <div style={{flex: 1,padding: 40}}>
             <LineChart width={1100} height={450} data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>

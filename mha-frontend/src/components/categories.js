@@ -7,7 +7,7 @@ class Sidebar extends Component {
 
     return (
       <div> 
-        <h3 style={{marginLeft:10, color:"white"}}>Categories</h3>
+        <h3 style={{marginLeft:16, color:'#4285F4'}}>Categories</h3>
         {categories.map(category => (
         <Link
             key={category.id} 

@@ -62,7 +62,6 @@ class TimeSlider extends React.Component {
         console.log(intervalData);
 
         axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
-        // axios.get("http://127.0.0.1:5000/query2", {params:{startDate:startDate , endDate:endDate,interval:intervalType.toLowerCase(),topCount:"top1"}})
             .then(response => {
                 // Handle success
                 this.handleUpdateData(response.data)

@@ -129,7 +129,7 @@ class AllTimeViewCharts extends React.Component {
     const {data} = this.context;
 
     return (
-      <div style={{flex: 2,padding: 50,display: 'flex'}}>
+      <div style={{flex: 2,padding: 40,display: 'flex'}}>
         <LineChart width={1100} height={450} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>

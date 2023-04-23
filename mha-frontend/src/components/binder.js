@@ -105,9 +105,6 @@ class Binder extends Component {
             </Routes>
           </div>
         </div>
-        <div className="top-songs">
-          <TopSongsComponent />
-        </div>
       </BrowserRouter>
     );
   }

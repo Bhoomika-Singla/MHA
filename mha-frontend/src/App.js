@@ -33,16 +33,24 @@ class App extends React.Component {
     } };
     this.setData = this.setData.bind(this);
   }
+
   setData(data) {
     this.setState({ data });
   }
+
   handleTopSongsData = (data) => {
     this.setState({ topSongsData: data });
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    // Check if topSongsData has changed
+    if (prevState.topSongsData !== this.state.topSongsData) {
+      this.handleTopSongsData(this.state.topSongsData);
+    }
+  }
+
   render() {
     const { topSongsData } = this.state;
-    console.log(topSongsData)
     return (
       <appContext.Provider value={{data: this.state.data, setData: this.setData}}>
         <div>

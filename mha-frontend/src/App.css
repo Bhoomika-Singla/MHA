@@ -27,7 +27,7 @@ body {
 .timeslider-container {
   background-color: #1c1f2e;
   border-radius: 20px;
-  margin: 10px 22px 7px 22px;
+  margin: 5px 22px 5px 22px;
   padding-bottom: 5px;
 }
 
@@ -95,13 +95,13 @@ body {
   left: 0;
   background-color: #1c1f2e;
   border-radius: 20px;
-  margin: 10px;
+  margin: 0 10px 0 10px;
 }
 
 .sidebar a {
   display: block;
   color: black;
-  padding: 15px;
+  padding: 14px;
   text-decoration: none;
 }
 
@@ -118,32 +118,41 @@ body {
   align-items: left;
   background-color: #1c1f2e;
   border-radius: 10px;
-  margin: 10px;
+  margin: 0 10px 0 10px;
 }
 
 .top-songs {
-  color: #ffffff;
-  padding: 10px 50px 20px 50px;
+  color: #4285F4;
+  padding: 10px 100px 10px 100px;
   background-color: #1c1f2e;
   border-radius: 20px;
   margin: 0px 22px 7px 22px;
+  text-align: center;
 }
 
 .top-songs-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  color: #ffffff;
+}
+
+.top-songs-table th {
+  height: 25px;
 }
 
 .top-songs-table th,
 .top-songs-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  padding: 7px;
   text-align: left;
 }
 
 .top-songs-table th {
   background-color: #020101;
+}
+
+.top-songs-table tr {
+  border-bottom: 0.1px solid #010124;
 }
 
 .top-songs-table tbody tr:hover {
