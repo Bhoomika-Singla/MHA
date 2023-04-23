@@ -63,7 +63,7 @@ class TimeSlider extends React.Component {
 
         console.log(intervalData);
 
-        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
+        axios.get("https://mhaflask5-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
             .then(response => {
                 // Handle success
                 this.handleUpdateData(response.data)
@@ -75,7 +75,7 @@ class TimeSlider extends React.Component {
             });
         
 
-        axios.get("https://mhaflask4-22-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'10'}})
+        axios.get("https://mhaflask5-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'10'}})
             .then(response => {
                 const topSongsData = response.data;
                 this.props.handleTopSongsData(topSongsData);
