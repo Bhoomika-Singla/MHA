@@ -4,6 +4,7 @@ This project aims to explore the history of music using big data tools and techn
 
 ![My Image](Architecture_Diagram.png)
 
+![image](https://user-images.githubusercontent.com/131318689/233860739-dae18b6f-3be2-483f-b4c2-54423bbb6380.png)
 
 More services can be added (like Apache Kafka, Docker, Container)
 
