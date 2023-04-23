@@ -11,6 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       topSongsData: null,
+      selectedButton : 'Year',
       data: {
       "data": {
           "_id": "",
@@ -32,10 +33,16 @@ class App extends React.Component {
       "week_number": 1
     } };
     this.setData = this.setData.bind(this);
+    this.setSelectedButton = this.setSelectedButton.bind(this);
   }
 
-  setData(data) {
-    this.setState({ data });
+  setData(inputData) {
+    this.setState({ data:inputData });
+  }
+
+  setSelectedButton(button){
+    this.setState({selectedButton:button});
+    console.log("Button in app: ",this.state.selectedButton);
   }
 
   handleTopSongsData = (data) => {
@@ -52,7 +59,7 @@ class App extends React.Component {
   render() {
     const { topSongsData } = this.state;
     return (
-      <appContext.Provider value={{data: this.state.data, setData: this.setData}}>
+      <appContext.Provider value={{data: this.state.data, setData: this.setData, selectedButton:this.state.selectedButton, setSelectedButton: this.setSelectedButton}}>
         <div>
         <Header />
         <TimeSlider handleTopSongsData={this.handleTopSongsData} />

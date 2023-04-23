@@ -122,17 +122,24 @@ const CustomizedDot = (props) => {
     );
   }
 };
+
+
 class AllTimeViewCharts extends React.Component {
   static contextType = appContext
+
+  labValue = (selectedButton) =>{
+    return selectedButton.toUpperCase()+'S';
+  }
+
   render() {
     const { category } = this.props;
-    const {data} = this.context;
+   const {data,selectedButton} = this.context;
 
     return (
       <div style={{flex: 2,padding: 40,display: 'flex'}}>
         <LineChart width={1100} height={450} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="week_number" stroke = "#ffffff" strokeWidth={3} label={{value:"Weeks", fill:"white", style: { fontWeight: 'bold' } }}/>
+            <XAxis dataKey={selectedButton+'_number'} angle={-45} textAnchor="end" stroke = "#ffffff" strokeWidth={3} label={{value:this.labValue(selectedButton),dy:14.5, fill:"white", style: { fontWeight: 'bold' } }}/>
             <YAxis stroke = "#ffffff" strokeWidth={3}/>
             <Label value="Loudness" position = "top" style={{fontSize: '24px', fill:'white',fontWeight: 'bold'}} />
             <Tooltip />

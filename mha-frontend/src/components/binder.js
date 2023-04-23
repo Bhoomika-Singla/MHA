@@ -62,7 +62,9 @@ const categories = [
     id: 10,
     name: 'Duration',
     color: '#008080',
-    key: 'duration_ms',
+    key: 'duration_min_decimal',
+    key_min: 'duration_min_sec.minutes',
+    key_sec: 'duration_min_sec.seconds',
     fill:"#82ca9d"
   }
 ];
