@@ -4,6 +4,6 @@ export const selectedInterval = [
 ];
 
 export const timelineInterval = [
-  new Date(1950, 0, 1),
+  new Date(1958, 0, 1),
   new Date(2022, 11, 31)
 ];
