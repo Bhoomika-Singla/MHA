@@ -3,3 +3,4 @@ venv/lib/python3.9/site-packages
 venv/bin/f2py
 venv/bin/f2py3
 venv/bin/f2py3.9
+venv/.env
