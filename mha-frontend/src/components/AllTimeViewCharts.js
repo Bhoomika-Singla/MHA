@@ -139,12 +139,10 @@ class AllTimeViewCharts extends React.Component {
       <div style={{flex: 2,padding: 40,display: 'flex'}}>
         <LineChart width={1100} height={450} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={selectedButton+'_number'} angle={-45} textAnchor="end" stroke = "#ffffff" strokeWidth={3} label={{value:this.labValue(selectedButton),dy:14.5, fill:"white", style: { fontWeight: 'bold' } }}/>
+            <XAxis dataKey={selectedButton ==='year' ? 'data.'+selectedButton :selectedButton+'_number'} interval={selectedButton ==='week' ? 40 : 5} angle={-45} textAnchor="end" stroke = "#ffffff" strokeWidth={3} label={{value:this.labValue(selectedButton),dy:14.5, fill:"white", style: { fontWeight: 'bold' } }}/>
             <YAxis stroke = "#ffffff" strokeWidth={3}/>
-            <Label value="Loudness" position = "top" style={{fontSize: '24px', fill:'white',fontWeight: 'bold'}} />
             <Tooltip />
             <Legend wrapperStyle={{right: -30}} layout="vertical" verticalAlign="top" align="right"/>
-            <Label value="Loudness" position="top" style={{ fontSize: '44px', fill: 'white', fontWeight: 'bold' }} />
             <Line type="monotone" key = {category.name} dataKey={'data.'+category.key.toLowerCase()} stroke={category.color} dot={<CustomizedDot category={category}/>} strokeWidth={3} />
             
         </LineChart> 

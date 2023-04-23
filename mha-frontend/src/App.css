@@ -121,6 +121,16 @@ body {
   margin: 0 10px 0 10px;
 }
 
+.averageChart {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  background-color: #1c1f2e;
+  border-radius: 10px;
+  margin: 0 22px 10px 22px;
+}
+
 .top-songs {
   color: #4285F4;
   padding: 10px 100px 10px 100px;
@@ -183,7 +193,7 @@ body {
   object-fit: cover;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Musical Symbols';
-  /*src: url('./Musical.ttf') format('truetype');*/
-}
+  src: url('./Musical.ttf') format('truetype');
+} */
