@@ -2,7 +2,6 @@
 
 This project aims to explore the history of music using big data tools and techniques. The project will analyze various sources of data to discover patterns and insights about how music has evolved over time. The project will use data visualization tools to create visualizations of the data and communicate the findings through a report. The project aims to provide a comprehensive analysis of the history of music, including how technology has impacted the industry and how the rise of streaming has changed the way people consume music.
 
-![My Image](Architecture_Diagram.png)
 
 ![image](https://user-images.githubusercontent.com/131318689/233860739-dae18b6f-3be2-483f-b4c2-54423bbb6380.png)
 
