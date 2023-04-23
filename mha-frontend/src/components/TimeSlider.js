@@ -39,6 +39,8 @@ class TimeSlider extends React.Component {
     handleUpdateData=(data)=> {
         this.setState({updatedData:data});
         this.context.setData(this.state.updatedData);
+        let intervalType = this.state.selectedButton === 'Day' ? 'Week' : this.state.selectedButton;
+        this.context.setSelectedButton(intervalType.toLowerCase());
     }
 
     sendIntervalData = () => {
