@@ -11,8 +11,8 @@ class Sidebar extends Component {
         {categories.map(category => (
         <Link
             key={category.id} 
-            to={(category.name === "Tempo" || category.name === "Duration" || category.name === "Loudness" || category.name === "Valence")  ? (category.name === "Tempo" || category.name === "Duration" ? '/category/timeCharts' : '/category/allTimeCharts') : '/category/categories'}
-            onClick={() => onChange(category)} style={{color:"white"}}>
+            to={(category.name === "Tempo" || category.name === "Duration" || category.name === "Loudness" || category.name === "Valence" || category.name === "Average")  ? (category.name === "Tempo" || category.name === "Duration" || category.name === "Average"? (category.name === "Average" ?'/category/average':'/category/timeCharts') : '/category/allTimeCharts') : '/category/categories'}
+            onClick={() => onChange(category)} style={{color:"white"}} title={category.description} className="category-link" >
             {category.name} 
           </Link>
         ))}

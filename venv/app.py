@@ -107,25 +107,11 @@ def query():
             
             interval = request.args.get('interval')
 
-            if interval == 'Week':
-                aggregate_type = 'week_aggregate_top_100'
-                interval_print_option = 'weeks sent.'
-                number_option = 'week_number'
-            elif interval == 'Month':
-                aggregate_type = 'month_aggregate_top_100'
-                interval_print_option = 'months sent.'
-                number_option = 'month_number'
-            elif interval == 'Year':
-                aggregate_type = 'year_aggregate_top_100'
-                interval_print_option = 'years sent.'
-                number_option = 'year_number'
-            else:
-                raise ValueError("Invalid interval")
-
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
             end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
 
             print_query(start_date, end_date, interval)
+
 
             pipeline = [     
                     {
@@ -157,22 +143,19 @@ def query():
                         }
                     }
             ]
+            if interval == 'Week':
+                aggregate_type = 'week_aggregate_top_100'
+            elif interval == 'Month':
+                aggregate_type = 'month_aggregate_top_100'
+            elif interval == 'Year':
+                aggregate_type = 'year_aggregate_top_100'
+            else:
+                raise ValueError("Invalid interval")
 
 
             data = []
             values = db[aggregate_type].aggregate(pipeline)
             count = 0
-
-            averages = {
-                "acousticness": 0,
-                "danceability": 0,
-                "energy":0,
-                "instrumentalness": 0,
-                "liveness": 0,
-                "speechiness": 0,
-                "valence": 0
-            }
-
             for doc in values:
                 # [0] => Duration Dictionary, [1] => Duartion min in float
                 ms_conversion = convert_ms(doc['duration_ms'])
@@ -184,35 +167,132 @@ def query():
 
                 dictionary = {}
                 dictionary['data'] = doc
-
-                # Add current summation for each key
-                for key in averages.keys():
-                    averages[key] += doc[key]
-
-                # Add current week/month/year count
-                dictionary[number_option] = count
+                
+                if interval == 'Week':
+                    dictionary['week_number'] = count           
+                elif interval == 'Month':
+                    dictionary['month_number'] = count
+                elif interval == 'Year':
+                    dictionary['year_number'] = count
 
                 data.append(dictionary)
                 count +=1
 
-            # Average certain keys
-            for key in averages.keys():
-                averages[key] = round(averages[key]/count,2)
-
-            response_dictionary = {
-                'result_data_array': data,
-                'averages': averages,
-            }
-
-            response = jsonify(response_dictionary)
+            response = jsonify(data)
             response.headers.add('Access-Control-Allow-Origin', HOST)
 
-            print(len(data), interval_print_option)
+
+            if interval == 'Week':
+                print(len(data), 'weeks sent.')            
+            elif interval == 'Month':
+                print(len(data), 'months sent.')  
+            elif interval == 'Year':
+                print(len(data), 'years sent.')
             
             return response
         except Exception as e:
             print("ERROR:", e)
             return e
+        
+
+# required fields   'startDate':'YYYY-MM-DD'   
+#                   'endDate':'YYYY-MM-DD'  
+#                   'interval' :'week' or 'month' or 'year'
+# note the date can be 'YYYY-MM' or just 'YYYY'  as long as 'month' 'year' 'week'
+# granularity is specified
+# DON'T use top1
+@app.route("/query2", methods=['GET'])
+def query2():
+    if request.method == 'GET':
+        try:
+            start_date_str = request.args.get('startDate')
+            end_date_str = request.args.get('endDate')
+            interval = request.args.get('interval')
+            top_count = request.args.get('topCount')
+
+            if(interval == 'week'):
+                start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+                end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+
+            if(interval == 'month'):
+                start_date = datetime.strptime(start_date_str, "%Y-%m")
+                end_date = datetime.strptime(end_date_str, "%Y-%m")
+
+            if(interval == 'year'):
+                start_date = datetime.strptime(start_date_str, "%Y")
+                end_date = datetime.strptime(end_date_str, "%Y")
+
+            #if len(end_date_str) != 10 or len(start_date_str) != 10:
+            #    raise ValueError("Invalid date format")
+
+            if(top_count == 'top100'):
+                collection = db['week_aggregate_top_100']
+            if(top_count == 'top10'):
+                collection = db['week_aggregate_top_10']
+            if(top_count == 'top1'):
+                collection = db['week_aggregate_top1']
+                
+
+
+            #print("Querying for dates... START:", start_date, "END", end_date, "on a", interval, "interval")
+         
+            pipeline = [     {
+                "$addFields":{  
+                    "date_field":{
+                        "$dateFromString":{
+                            "dateString": "$date",
+                            "format":"%Y-%m-%d"
+                        }
+                    }
+                }
+            },
+            {
+                "$match":{
+                    "date_field":{
+                        "$gte": start_date,
+                        "$lte": end_date,
+                    }
+                }
+            },
+            {   
+                "$project":{
+                    "_id": 0,  "danceability": 1, 'energy': 1, 'loudness': 1, 'speechiness': 1, 'acousticness': 1, 'instrumentalness': 1, 'liveness': 1, 'valence': 1, 'tempo': 1, 'duration_ms': 1, 'date': 1, 'key': 1, 'mode': 1, 'time_signature': 1, 'year': 1, 'month': 1, 'day': 1, 'date_field': 1
+                }
+            },
+            {
+                "$sort":{
+                    "date_field":1
+                }
+            }
+            ]
+
+            data = []
+            values = collection.aggregate(pipeline)
+
+            count = 1
+            for doc in values:
+                print(doc)
+                del doc['date']
+                del doc['date_field']
+                if(top_count != 'top1'):
+                    del doc['day']
+                    del doc['month']
+                    del doc['year']
+                dictionary = {}
+                dictionary['data'] = doc
+                dictionary['week_number'] = count
+                data.append(dictionary)
+                count +=1
+
+            response = jsonify(data)
+            response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+            return response
+
+
+        except Exception as e:
+            print("ERROR:", e)
+            return e
+
 
 # required fields   'startDate':'YYYY-MM-DD'   'endDate':'YYYY-MM-DD'  'songCount':int 
 @app.route("/top_songs", methods=['GET'])
@@ -227,8 +307,8 @@ def top_songs():
             if len(end_date_str) != 10 or len(start_date_str) != 10:
                 raise ValueError("Invalid date format")
             
-            start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-            end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d")#.date()
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d")#.date()
 
             pipeline = [     {
                 "$addFields":{
@@ -262,7 +342,7 @@ def top_songs():
             
             c = []
             c = Counter(top_ids_count)
-
+            #print(c.most_common(int(song_count)))
             top_ids = [t[0] for t in c.most_common(int(song_count))]
             url = "https://api.spotify.com/v1/tracks"
 
@@ -278,24 +358,15 @@ def top_songs():
             response = []
         
             count = 1
-
-            songs_collection = db['songs']
-
             for track in data['tracks']:
+                #print(track["album"]["artists"][0]["name"])
+                #print(track["name"])
+                #print(track["album"]["images"][0]["url"])
                 info = {}
                 info['artist'] = track["album"]["artists"][0]["name"]
                 info['song'] = track["name"]
                 info["image_url"] = track["album"]["images"][0]["url"]
                 info["id"] = track["id"]
-
-                song_analysis = songs_collection.find_one({'id': track['id']})
-
-                key = song_analysis['key']
-                mode = song_analysis['mode']
-
-                info['key'] = key
-                info['mode'] = mode
-                info['key_mode_pair'] = f"{key}_{mode}"
                 response.append(info)
 
 

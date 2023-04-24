@@ -65,6 +65,7 @@ class App extends React.Component {
         <TimeSlider handleTopSongsData={this.handleTopSongsData} />
         <Binder />
         {topSongsData ? <TopSongsComponent topSongsData={topSongsData} /> : null}
+
         </div>
       </appContext.Provider>
     );
