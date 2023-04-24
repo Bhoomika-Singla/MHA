@@ -8,17 +8,17 @@ class CustomTooltip extends React.Component {
 
         if (active) {
             const { payload } = this.props;
-            if (payload) {
+            if (payload && payload.length) {
                 return (
                     <div style={{ background: 'white', padding: '10px' }}>
-                        <p style={{ margin: 0, color: payload[0].stroke }}>
-                            {payload[0].name}: {payload[0].value}
-                        </p>
-
-                        <p style={{ margin: 0, color: payload[0].stroke }}>
+                        {payload.map((entry, index) => (
+                            <p key={`tooltip-${index}`} style={{ margin: 0, color: entry.stroke }}>
+                                {entry.name}: {entry.value}
+                            </p>
+                        ))}
+                        <p style={{ margin: 0, color: payload[payload.length-1].stroke }}>
                             date: {payload[0].payload.data.date}
                         </p>
-
                     </div>
                 );
             }
