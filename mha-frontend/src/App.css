@@ -4,6 +4,11 @@ body {
 
 .header-with-logo {
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  opacity: 1;
+  background-color: black;
 }
 
 .app-header {
@@ -22,7 +27,7 @@ body {
 .timeslider-container {
   background-color: #1c1f2e;
   border-radius: 20px;
-  margin: 10px 22px 7px 22px;
+  margin: 5px 22px 5px 22px;
   padding-bottom: 5px;
 }
 
@@ -90,13 +95,13 @@ body {
   left: 0;
   background-color: #1c1f2e;
   border-radius: 20px;
-  margin: 10px;
+  margin: 0 10px 0 10px;
 }
 
 .sidebar a {
   display: block;
   color: black;
-  padding: 15px;
+  padding: 12px 12px 12px 20px;
   text-decoration: none;
 }
 
@@ -110,30 +115,42 @@ body {
   flex: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   background-color: #1c1f2e;
-  border-radius: 20px;
-  margin: 10px;
+  border-radius: 10px;
+  margin: 0 10px 0 10px;
+}
+
+.averageChart {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 }
 
 .top-songs {
-  color: #ffffff;
-  padding: 50px;
+  color: #4285F4;
+  padding: 10px 100px 10px 100px;
   background-color: #1c1f2e;
   border-radius: 20px;
   margin: 0px 22px 7px 22px;
+  text-align: center;
 }
 
 .top-songs-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  color: #ffffff;
+}
+
+.top-songs-table th {
+  height: 25px;
 }
 
 .top-songs-table th,
 .top-songs-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  padding: 7px;
   text-align: left;
 }
 
@@ -141,8 +158,12 @@ body {
   background-color: #020101;
 }
 
+.top-songs-table tr {
+  border-bottom: 0.1px solid #010124;
+}
+
 .top-songs-table tbody tr:hover {
-  background-color: #4285F4;
+  background-color: #000000;
   color: #ffffff;
 }
 
@@ -160,10 +181,15 @@ body {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
+  margin: auto;
 }
 
 .song-cover-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.category-link {
+  position: relative;
 }

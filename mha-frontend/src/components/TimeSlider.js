@@ -2,7 +2,8 @@ import React from "react";
 import axios from 'axios';
 import { format } from "date-fns";
 import TimeRange from "react-timeline-range-slider";
-import './App.css';
+import '../App.css';
+import appContext from '../appContext'
 
 import {
     selectedInterval,
@@ -11,12 +12,14 @@ import {
 
 
 class TimeSlider extends React.Component {
+    static contextType = appContext
     state = { 
         error: false,
         selectedInterval,
         selectedButton: "Year",
         step: 31557600000,  // default step for year
         formatString: "yyyy",
+        updatedData: this.context.data
     };
 
     errorHandler = ({ error }) => this.setState({ error });
@@ -33,41 +36,61 @@ class TimeSlider extends React.Component {
         });
     };
 
+    handleUpdateData=(data)=> {
+        this.setState({updatedData:data});
+        this.context.setData(this.state.updatedData);
+        let intervalType = this.state.selectedButton === 'Day' ? 'Week' : this.state.selectedButton;
+        this.context.setSelectedButton(intervalType.toLowerCase());
+    }
+
     sendIntervalData = () => {
         const { selectedButton, selectedInterval } = this.state;
 
         let intervalFormat = 'yyyy-MM-dd';
-        if (selectedButton === 'Year')
-            intervalFormat = 'yyyy';
-        else if (selectedButton === 'Month')
-            intervalFormat = 'yyyy-MM';
+        let interval = selectedButton;
+         if (selectedButton === 'Day')
+            interval = 'Week';
 
         const startDate = format(selectedInterval[0], intervalFormat);
         const endDate = format(selectedInterval[1], intervalFormat);
+        const intervalType = selectedButton === 'Day' ? 'Week' : selectedButton
         const intervalData = {
             interval: selectedButton,
             startDate,
-            endDate
+            endDate,
+            intervalType
         };
 
         console.log(intervalData);
 
-        axios.get("http://127.0.0.1:5000/query2", {params:{startDate:startDate , endDate:endDate}})
+        axios.get("https://mhaflask-zesadgjgsa-uw.a.run.app/query", {params:{startDate:startDate , endDate:endDate, interval:interval, topCount:'top100'}})
             .then(response => {
                 // Handle success
+                this.handleUpdateData(response.data)
                 console.log(response.data);
+            })
+            .catch(error => {
+                // Handle error 
+                console.error(error);
+            });
+        
+
+        axios.get("https://mhaflask-zesadgjgsa-uw.a.run.app/top_songs", {params:{startDate:startDate , endDate:endDate, songCount:'10'}})
+            .then(response => {
+                const topSongsData = response.data;
+                this.props.handleTopSongsData(topSongsData);
             })
             .catch(error => {
                 // Handle error
                 console.error(error);
             });
-    }
+        }  
 
     render() {
         const { selectedInterval, error, step, selectedButton, formatString } = this.state;
         return (
-            <div class="timeslider-container">
-                <div class="interval">
+            <div className="timeslider-container">
+                <div className="interval">
                     <span style={{color:"white"}}>Select interval by : </span>
                     <button
                         className={`interval-button ${selectedButton === "Day" ? "selected" : ""}`}
