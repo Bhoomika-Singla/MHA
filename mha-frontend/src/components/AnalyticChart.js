@@ -15,7 +15,7 @@ class AnalyticChart extends React.Component{
     const d = dataKeys.map((key, index) => ({ name: key, value: dataValues[index] }));
     return (
       <div className='averageChart'>
-        <RadarChart outerRadius={250} width={1100} height={570} data={d}>
+        <RadarChart outerRadius={250} width={1100} height={530} data={d}>
           <PolarGrid />
           <PolarAngleAxis dataKey="name"/>
           <PolarRadiusAxis angle={30} domain={[0, 0.75]}/>
