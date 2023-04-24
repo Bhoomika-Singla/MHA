@@ -43,7 +43,7 @@ class BaseComponent extends React.Component {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey={selectedButton === 'year' ? 'data.' + selectedButton : selectedButton + '_number'} interval={selectedButton === 'week' ? 40 : 5} angle={-45} textAnchor="end" stroke="#ffffff" strokeWidth={3} label={{ value: this.labValue(selectedButton), dy: 14.5, fill: "white", style: { fontWeight: 'bold' } }} />
                     <YAxis stroke="#ffffff" strokeWidth={3} />
-                    <Tooltip content={<CustomTooltip activeButton={selectedButton} />} />
+                    <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ right: -30 }} layout="vertical" verticalAlign="top" align="right" />
                     {category.map(c => (
                         <Line type="monotone" key={c.name} dataKey={'data.' + c.name.toLowerCase()} strokeWidth={3} stroke={c.color} />
